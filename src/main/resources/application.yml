@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: bootcamp-user
+  datasource:
+    url: jdbc:mysql://localhost:3306/test
+    username: root
+    password: 1234
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+logging:
+  level:
+    root: info
+
+server:
+  port: 8081
+  servlet:
+    context-path: /bootcamp/user
