@@ -10,4 +10,36 @@ public class StudentMessage {
     // EXCEPTION MESSAGE
     public static final String ERROR = "Error: ";
     public static final String STUDENT_EXIST = "El estudiante ya se encuentra registrado dentro de la base de datos";
+
+    // VALIDATION MESSAGE
+    public static final String CITY_ID_IS_NULL_MESSAGE = "El id de la ciudad es requerido";
+    public static final String CITY_ID_IS_NOT_A_NUMBER_MESSAGE = "El id de la ciudad debe ser numérico";
+    public static final String ADDRESS_IS_NULL_MESSAGE = "La dirección es requerida";
+    public static final String ADDRESS_IS_BLANK_MESSAGE = "La dirección no puede estar vacía";
+    public static final String ADDRESS_DETAILS_IS_BLANK_MESSAGE = "El detalle de la dirección no puede estar vacío";
+    public static final String NAME_IS_BLANK_MESSAGE = "El nombre no puede estar vacío";
+    public static final String NAME_IS_NULL_MESSAGE = "El nombre es requerido";
+    public static final String LASTNAME_IS_BLANK_MESSAGE = "El apellido no puede estar vacío";
+    public static final String LASTNAME_IS_NULL_MESSAGE = "El apellido es requerido";
+    public static final String EMAIL_INVALID_MESSAGE = "El email proporcionado no es válido";
+    public static final String EMAIL_IS_NULL_MESSAGE = "El email es requerido";
+    public static final String CELLPHONE_IS_NULL_MESSAGE = "El número de celular es requerido";
+    public static final String CELLPHONE_INVALID_MESSAGE = "El número de celular ingresado no es válido";
+    public static final String IDENTIFICATION_IS_NULL_MESSAGE = "El número de identificación es requerido";
+    public static final String IDENTIFICATION_TOO_SHORT_MESSAGE = "El número de identificación no cumple con el mínino de caracteres permitidos";
+    public static final String IDENTIFICATION_INVALID_MESSAGE = "El número de identificación solo puede contener valores numéricos";
+    public static final String IDENTIFICATION_TYPE_IS_NULL_MESSAGE = "El tipo de identificación es requerido";
+    public static final String IDENTIFICATION_TYPE_INVALID_LENGTH_MESSAGE = "El valor del tipo de identificación no cumple con la longitud establecida";
+    public static final String BIRTHDATE_IS_NOT_PAST_DATE_MESSAGE = "La fecha de nacimiento debe ser anterior a la fecha actual";
+    public static final String BIRTHDATE_IS_NULL_MESSAGE = "La fecha de nacimiento es requerida";
+    public static final String EDUCATION_LEVEL_IS_NULL_MESSAGE = "El nivel de educación es requerido";
+    public static final String INSTITUTION_ID_IS_NULL_MESSAGE = "El id de la institución es requerido";
+    public static final String INSTITUTION_ID_IS_NOT_A_NUMBER_MESSAGE = "El id de la institución debe ser numérico";
+    public static final String INSTITUTION_DETAIL_IS_BLANK_MESSAGE = "Los detalles de la institución no puede estar vacío";
+    public static final String DEGREE_NAME_IS_NULL_MESSAGE = "El nombre del título es requerido";
+    public static final String DEGREE_NAME_IS_BLANK_MESSAGE = "El nombre del título no puede estar vacío";
+    public static final String DEVELOPER_ROL_IS_NULL_MESSAGE = "El rol de desarrollador es requerido";
+    public static final String COURSE_DISCOVERY_SOURCE_IS_NULL_MESSAGE = "La fuente de descubrimiento del curso es requerido";
+    public static final String LOCATION_IS_NULL_MESSAGE = "La ubicación es requerida";
+
 }

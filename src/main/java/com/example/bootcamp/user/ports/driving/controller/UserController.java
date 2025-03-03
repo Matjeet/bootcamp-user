@@ -5,6 +5,7 @@ import com.example.bootcamp.user.domain.model.Student;
 import com.example.bootcamp.user.domain.model.StudentInstitution;
 import com.example.bootcamp.user.ports.driving.dto.request.StudentRegisterDto;
 import com.example.bootcamp.user.ports.driving.mapper.helper.IStudentMapperHelper;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class UserController {
     private final IStudentServicePort studentServicePort;
 
     @PostMapping("/student")
-    public ResponseEntity<String> saveStudent(@RequestBody StudentRegisterDto studentRegisterDto){
+    public ResponseEntity<String> saveStudent(@Valid @RequestBody StudentRegisterDto studentRegisterDto){
         StudentInstitution studentInstitution = studentMapperHelper.toStudentInstitution(studentRegisterDto);
         Student student = studentMapperHelper.toStudent(studentRegisterDto);
         studentServicePort.save(student, studentInstitution);
