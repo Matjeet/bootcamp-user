@@ -8,7 +8,7 @@ public class StudentMessage {
     public static final String CREATED_MESSAGE = "El estudiante se ha creado correctamente dentro de la base de datos";
 
     // EXCEPTION MESSAGE
-    public static final String ERROR = "Error: ";
+    public static final String MESSAGE_KEY = "response";
     public static final String STUDENT_EXIST = "El estudiante ya se encuentra registrado dentro de la base de datos";
 
     // VALIDATION MESSAGE
@@ -41,5 +41,6 @@ public class StudentMessage {
     public static final String DEVELOPER_ROL_IS_NULL_MESSAGE = "El rol de desarrollador es requerido";
     public static final String COURSE_DISCOVERY_SOURCE_IS_NULL_MESSAGE = "La fuente de descubrimiento del curso es requerido";
     public static final String LOCATION_IS_NULL_MESSAGE = "La ubicación es requerida";
+    public static final String STUDENT_IS_NOT_AN_ADULT = "El usuario no tiene la mayoría de edad";
 
 }
