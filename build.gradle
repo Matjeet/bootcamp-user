@@ -2,6 +2,8 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.3.4'
 	id 'io.spring.dependency-management' version '1.1.6'
+	id "org.sonarqube" version "6.0.1.5171"
+	id 'jacoco'
 }
 
 group = 'com.example.bootcamp'
@@ -11,6 +13,10 @@ java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(17)
 	}
+}
+
+jacoco {
+	toolVersion = '0.8.12'
 }
 
 configurations {
@@ -52,6 +58,36 @@ dependencies {
 	testImplementation "org.mockito:mockito-junit-jupiter:${mockitoVersion}"
 }
 
-tasks.named('test') {
+sonarqube {
+	properties {
+		property "sonar.projectKey", "Bootcamp-users"
+		property "sonar.projectName", "Bootcamp users"
+		property "sonar.host.url", "http://localhost:9000"
+		property "sonar.token", "sqp_ded566e51187130c2e6ae5c97fb09ce79519c83f"
+		property "sonar.exclusions", "**/domain/model/**, " +
+										"**/EducationLevel.java, " +
+										"**/BootcampUserApplication.java, " +
+										"**/BeanConfig.java, " +
+										"**/CourseDiscoverySource.java, " +
+										"**/DeveloperRolEnum.java, " +
+										"**/StudentConstants.java, " +
+										"**/StudentMessage.java, " +
+										"**/StudentExceptionHandler.java, " +
+										"**/adapter/**, " +
+										"**/mapper/**"
+	}
+}
+
+test {
 	useJUnitPlatform()
+	finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+	dependsOn test
+	reports {
+		xml.required = true
+		csv.required = false
+		html.outputLocation = layout.buildDirectory.dir("jacocoHtml")
+	}
 }
