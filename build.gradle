@@ -63,7 +63,7 @@ sonarqube {
 		property "sonar.projectKey", "Bootcamp-users"
 		property "sonar.projectName", "Bootcamp users"
 		property "sonar.host.url", "http://localhost:9000"
-		property "sonar.token", "sqp_ded566e51187130c2e6ae5c97fb09ce79519c83f"
+		property "sonar.token", System.getenv("TOKEN") ?: ""
 		property "sonar.exclusions", "**/domain/model/**, " +
 										"**/EducationLevel.java, " +
 										"**/BootcampUserApplication.java, " +
