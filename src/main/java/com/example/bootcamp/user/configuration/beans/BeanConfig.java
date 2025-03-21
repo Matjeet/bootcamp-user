@@ -8,9 +8,6 @@ import com.example.bootcamp.user.ports.driven.mysql.mapper.IStudentEntityMapper;
 import com.example.bootcamp.user.ports.driven.mysql.mapper.IStudentInstitutionEntityMapper;
 import com.example.bootcamp.user.ports.driven.mysql.repository.IStudentInstitutionRepository;
 import com.example.bootcamp.user.ports.driven.mysql.repository.IStudentRepository;
-import com.example.bootcamp.user.ports.driving.mapper.IStudentMapper;
-import com.example.bootcamp.user.ports.driving.mapper.helper.IStudentMapperHelper;
-import com.example.bootcamp.user.ports.driving.mapper.helper.impl.StudentMapperHelperImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +20,6 @@ public class BeanConfig {
     private final IStudentInstitutionRepository studentInstitutionRepository;
     private final IStudentEntityMapper studentEntityMapper;
     private final IStudentInstitutionEntityMapper studentInstitutionEntityMapper;
-    private final IStudentMapper studentMapper;
 
     @Bean
     public IStudentServicePort studentServicePort(){
@@ -40,8 +36,4 @@ public class BeanConfig {
         );
     }
 
-    @Bean
-    public IStudentMapperHelper studentMapperHelper(){
-        return new StudentMapperHelperImpl(studentMapper);
-    }
 }

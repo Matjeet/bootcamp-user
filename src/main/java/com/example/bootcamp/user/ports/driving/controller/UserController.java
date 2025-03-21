@@ -4,7 +4,7 @@ import com.example.bootcamp.user.domain.api.IStudentServicePort;
 import com.example.bootcamp.user.domain.model.Student;
 import com.example.bootcamp.user.domain.model.StudentInstitution;
 import com.example.bootcamp.user.ports.driving.dto.request.StudentRegisterDto;
-import com.example.bootcamp.user.ports.driving.mapper.helper.IStudentMapperHelper;
+import com.example.bootcamp.user.ports.driving.mapper.IStudentMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,13 +21,13 @@ import static com.example.bootcamp.user.domain.util.StudentMessage.CREATED_MESSA
 @RequiredArgsConstructor
 public class UserController {
 
-    private final IStudentMapperHelper studentMapperHelper;
+    private final IStudentMapper studentMapper;
     private final IStudentServicePort studentServicePort;
 
     @PostMapping("/student")
     public ResponseEntity<String> saveStudent(@Valid @RequestBody StudentRegisterDto studentRegisterDto){
-        StudentInstitution studentInstitution = studentMapperHelper.toStudentInstitution(studentRegisterDto);
-        Student student = studentMapperHelper.toStudent(studentRegisterDto);
+        StudentInstitution studentInstitution = studentMapper.toStudentInstitution(studentRegisterDto);
+        Student student = studentMapper.toStudent(studentRegisterDto);
         studentServicePort.save(student, studentInstitution);
         return new ResponseEntity<>(CREATED_MESSAGE, HttpStatus.CREATED);
 
