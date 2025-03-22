@@ -12,11 +12,11 @@ public class Student {
     private String identification;
     private String identificationType;
     private LocalDate birthDate;
-    private String educationLevel;
+    private EducationLevel educationLevel;
     private String developerRol;
     private String courseDiscoverySource;
 
-    public Student(Long id, String email, String name, String lastname, String cellphone, String identification, String identificationType, LocalDate birthDate, String educationLevel, String developerRol, String courseDiscoverySource) {
+    public Student(Long id, String email, String name, String lastname, String cellphone, String identification, String identificationType, LocalDate birthDate, EducationLevel educationLevel, String developerRol, String courseDiscoverySource) {
         this.id = id;
         this.email = email;
         this.name = name;
@@ -97,11 +97,11 @@ public class Student {
         this.birthDate = birthDate;
     }
 
-    public String getEducationLevel() {
+    public EducationLevel getEducationLevel() {
         return educationLevel;
     }
 
-    public void setEducationLevel(String educationLevel) {
+    public void setEducationLevel(EducationLevel educationLevel) {
         this.educationLevel = educationLevel;
     }
 

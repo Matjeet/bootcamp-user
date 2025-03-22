@@ -4,6 +4,7 @@ import com.example.bootcamp.user.domain.api.IStudentServicePort;
 import com.example.bootcamp.user.domain.exception.*;
 import com.example.bootcamp.user.domain.model.Student;
 import com.example.bootcamp.user.domain.model.StudentInstitution;
+import com.example.bootcamp.user.domain.spi.IEducationLevelPersistencePort;
 import com.example.bootcamp.user.domain.spi.IInstitutionPersistencePort;
 import com.example.bootcamp.user.domain.spi.IStudentPersistencePort;
 
@@ -16,12 +17,16 @@ public class StudentUseCase implements IStudentServicePort {
 
     private final IStudentPersistencePort studentPersistencePort;
     private final IInstitutionPersistencePort institutionPersistencePort;
+    private final IEducationLevelPersistencePort educationLevelPersistencePort;
 
     public StudentUseCase(
             IStudentPersistencePort studentPersistencePort,
-            IInstitutionPersistencePort institutionPersistencePort){
+            IInstitutionPersistencePort institutionPersistencePort,
+            IEducationLevelPersistencePort educationLevelPersistencePort
+    ){
         this.studentPersistencePort = studentPersistencePort;
         this.institutionPersistencePort = institutionPersistencePort;
+        this.educationLevelPersistencePort = educationLevelPersistencePort;
     }
 
     @Override
@@ -40,6 +45,9 @@ public class StudentUseCase implements IStudentServicePort {
 
         if(isNull(institutionPersistencePort.findById(studentInstitution.getInstitution().getId())))
             throw new InstitutionNotFoundException(INSTITUTION_NOT_FOUND);
+
+        if(isNull(educationLevelPersistencePort.findByName(student.getEducationLevel().getName())))
+            throw new EducationLevelNotFoundException(EDUCATION_LEVEL_NOT_FOUND);
 
         studentPersistencePort.save(student, studentInstitution);
     }

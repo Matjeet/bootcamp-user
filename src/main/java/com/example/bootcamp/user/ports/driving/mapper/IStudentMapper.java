@@ -14,7 +14,7 @@ import org.mapstruct.ValueMapping;
 public interface IStudentMapper {
 
     //@Mapping(target = "educationLevel", source = "educationLevel.name")
-    @ValueMapping(target = "educationLevel", source = "educationLevel")
+    @ValueMapping(target = "educationLevel", source = "educationLevel.name")
     Student toStudent(StudentRegisterDto studentRegisterDto);
 
     @Mapping(target = "id", ignore = true)

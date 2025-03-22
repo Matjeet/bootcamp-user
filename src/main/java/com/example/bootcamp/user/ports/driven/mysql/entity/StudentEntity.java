@@ -24,7 +24,10 @@ public class StudentEntity {
     private String identification;
     private String identificationType;
     private LocalDate birthDate;
-    private String educationLevel;
+
+    @ManyToOne
+    @JoinColumn(name = "education_level", referencedColumnName = "id")
+    private EducationLevelEntity educationLevel;
     private String developerRol;
     private String courseDiscoverySource;
 }
