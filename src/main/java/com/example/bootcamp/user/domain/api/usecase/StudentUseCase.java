@@ -2,6 +2,7 @@ package com.example.bootcamp.user.domain.api.usecase;
 
 import com.example.bootcamp.user.domain.api.IStudentServicePort;
 import com.example.bootcamp.user.domain.exception.*;
+import com.example.bootcamp.user.domain.model.EducationLevel;
 import com.example.bootcamp.user.domain.model.Student;
 import com.example.bootcamp.user.domain.model.StudentInstitution;
 import com.example.bootcamp.user.domain.spi.IEducationLevelPersistencePort;
@@ -46,8 +47,11 @@ public class StudentUseCase implements IStudentServicePort {
         if(isNull(institutionPersistencePort.findById(studentInstitution.getInstitution().getId())))
             throw new InstitutionNotFoundException(INSTITUTION_NOT_FOUND);
 
-        if(isNull(educationLevelPersistencePort.findByName(student.getEducationLevel().getName())))
-            throw new EducationLevelNotFoundException(EDUCATION_LEVEL_NOT_FOUND);
+        EducationLevel educationLevel = educationLevelPersistencePort.findByName(student.getEducationLevel().getName());
+
+        if(isNull(educationLevel)) throw new EducationLevelNotFoundException(EDUCATION_LEVEL_NOT_FOUND);
+
+        student.setEducationLevel(educationLevel);
 
         studentPersistencePort.save(student, studentInstitution);
     }
