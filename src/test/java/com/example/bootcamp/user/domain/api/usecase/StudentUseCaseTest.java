@@ -1,8 +1,10 @@
 package com.example.bootcamp.user.domain.api.usecase;
 
 import com.example.bootcamp.user.domain.exception.*;
+import com.example.bootcamp.user.domain.model.Institution;
 import com.example.bootcamp.user.domain.model.Student;
 import com.example.bootcamp.user.domain.model.StudentInstitution;
+import com.example.bootcamp.user.domain.spi.IInstitutionPersistencePort;
 import com.example.bootcamp.user.domain.spi.IStudentPersistencePort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,13 +28,16 @@ class StudentUseCaseTest {
 
     @Mock
     private IStudentPersistencePort studentPersistencePort;
+    @Mock
+    private IInstitutionPersistencePort institutionPersistencePort;
     @InjectMocks
     private StudentUseCase studentUseCase;
 
-    Student studentValid;
-    StudentInstitution studentInstitution;
-    Executable executable;
-    Executable executableWithValidData;
+    private Student studentValid;
+    private StudentInstitution studentInstitutionValid;
+    private Institution institutionValid;
+    private Executable executable;
+    private Executable executableWithValidData;
 
     @BeforeEach
     void setUp() {
@@ -42,20 +47,25 @@ class StudentUseCaseTest {
         studentValid.setIdentification("2000757896");
         studentValid.setBirthDate(LocalDate.of(2002,11,29));
 
-        studentInstitution = new StudentInstitution();
+        institutionValid = new Institution();
+        institutionValid.setId(1L);
+
+        studentInstitutionValid = new StudentInstitution();
+        studentInstitutionValid.setInstitution(institutionValid);
 
         executable = () -> studentUseCase.save(new Student(), new StudentInstitution());
-        executableWithValidData = () -> studentUseCase.save(studentValid, new StudentInstitution());
+        executableWithValidData = () -> studentUseCase.save(studentValid, studentInstitutionValid);
     }
 
     @Test
     void saveSuccess(){
         when(studentPersistencePort.findByEmailOrIdentification(any(), any())).thenReturn(null);
-        doNothing().when(studentPersistencePort).save(studentValid, studentInstitution);
+        when(institutionPersistencePort.findById(anyLong())).thenReturn(institutionValid);
+        doNothing().when(studentPersistencePort).save(studentValid, studentInstitutionValid);
 
-        studentUseCase.save(studentValid, studentInstitution);
+        studentUseCase.save(studentValid, studentInstitutionValid);
 
-        verify(studentPersistencePort, times(ONE_TIME)).save(studentValid, studentInstitution);
+        verify(studentPersistencePort, times(ONE_TIME)).save(studentValid, studentInstitutionValid);
         verify(studentPersistencePort, times(ONE_TIME)).findByEmailOrIdentification(any(), any());
     }
 
@@ -101,5 +111,14 @@ class StudentUseCaseTest {
         InvalidAgeException ex = assertThrows(InvalidAgeException.class, executableWithValidData);
 
         assertEquals(STUDENT_IS_NOT_AN_ADULT, ex.getMessage());
+    }
+
+    @Test
+    void saveInstitutionNotFound(){
+        when(institutionPersistencePort.findById(anyLong())).thenReturn(null);
+
+        InstitutionNotFoundException ex = assertThrows(InstitutionNotFoundException.class, executableWithValidData);
+
+        assertEquals(INSTITUTION_NOT_FOUND, ex.getMessage());
     }
 }
