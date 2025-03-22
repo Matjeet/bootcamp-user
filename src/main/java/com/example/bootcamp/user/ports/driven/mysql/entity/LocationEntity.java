@@ -17,7 +17,7 @@ public class LocationEntity {
     private Long id;
     private String address;
     private String addressDetail;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "city", referencedColumnName = "id")
     private CityEntity city;
     @ManyToOne

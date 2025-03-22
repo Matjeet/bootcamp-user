@@ -16,7 +16,7 @@ public class DepartmentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "country", referencedColumnName = "id")
     private CountryEntity country;
 }

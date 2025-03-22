@@ -16,7 +16,7 @@ public class CityEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "department", referencedColumnName = "id")
     private DepartmentEntity department;
 }
