@@ -1,9 +1,11 @@
 package com.example.bootcamp.user.domain.api.usecase;
 
 import com.example.bootcamp.user.domain.exception.*;
+import com.example.bootcamp.user.domain.model.EducationLevel;
 import com.example.bootcamp.user.domain.model.Institution;
 import com.example.bootcamp.user.domain.model.Student;
 import com.example.bootcamp.user.domain.model.StudentInstitution;
+import com.example.bootcamp.user.domain.spi.IEducationLevelPersistencePort;
 import com.example.bootcamp.user.domain.spi.IInstitutionPersistencePort;
 import com.example.bootcamp.user.domain.spi.IStudentPersistencePort;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,22 +32,30 @@ class StudentUseCaseTest {
     private IStudentPersistencePort studentPersistencePort;
     @Mock
     private IInstitutionPersistencePort institutionPersistencePort;
+    @Mock
+    private IEducationLevelPersistencePort educationLevelPersistencePort;
     @InjectMocks
     private StudentUseCase studentUseCase;
 
     private Student studentValid;
     private StudentInstitution studentInstitutionValid;
     private Institution institutionValid;
+    private EducationLevel educationLevelValid;
+
     private Executable executable;
     private Executable executableWithValidData;
 
     @BeforeEach
     void setUp() {
+        educationLevelValid = new EducationLevel();
+        educationLevelValid.setName("TECHNICAL");
+
         studentValid = new Student();
         studentValid.setEmail("mateo.velasquez@pragma.com.co");
         studentValid.setCellphone("+573226748955");
         studentValid.setIdentification("2000757896");
         studentValid.setBirthDate(LocalDate.of(2002,11,29));
+        studentValid.setEducationLevel(educationLevelValid);
 
         institutionValid = new Institution();
         institutionValid.setId(1L);
@@ -61,6 +71,7 @@ class StudentUseCaseTest {
     void saveSuccess(){
         when(studentPersistencePort.findByEmailOrIdentification(any(), any())).thenReturn(null);
         when(institutionPersistencePort.findById(anyLong())).thenReturn(institutionValid);
+        when(educationLevelPersistencePort.findByName(anyString())).thenReturn(educationLevelValid);
         doNothing().when(studentPersistencePort).save(studentValid, studentInstitutionValid);
 
         studentUseCase.save(studentValid, studentInstitutionValid);
@@ -70,7 +81,7 @@ class StudentUseCaseTest {
     }
 
     @Test
-    void saveEmailExistInDataBase() {
+    void save_EmailExistInDataBase() {
         when(studentPersistencePort.findByEmailOrIdentification(any(), any())).thenReturn(new Student());
 
         StudentExistsException ex = assertThrows(StudentExistsException.class, executableWithValidData);
@@ -79,14 +90,14 @@ class StudentUseCaseTest {
     }
 
     @Test
-    void saveInvalidEmail() {
+    void save_InvalidEmail() {
         InvalidEmailException ex = assertThrows(InvalidEmailException.class, executable);
 
         assertEquals(EMAIL_INVALID_MESSAGE, ex.getMessage());
     }
 
     @Test
-    void saveInvalidCellphone(){
+    void save_InvalidCellphone(){
         studentValid.setCellphone("+1nv4l1d_c311ph0n3");
 
         InvalidCellphoneException ex = assertThrows(InvalidCellphoneException.class, executableWithValidData);
@@ -95,7 +106,7 @@ class StudentUseCaseTest {
     }
 
     @Test
-    void saveInvalidIdentification(){
+    void save_InvalidIdentification(){
         studentValid.setIdentification("invalid_identification");
 
         InvalidIdentificationException ex = assertThrows(InvalidIdentificationException.class, executableWithValidData);
@@ -104,7 +115,7 @@ class StudentUseCaseTest {
     }
 
     @Test
-    void saveStudentIsNotAnAdult(){
+    void save_StudentIsNotAnAdult(){
         LocalDate mockBirthDate = LocalDate.now();
         studentValid.setBirthDate(mockBirthDate);
 
@@ -114,11 +125,21 @@ class StudentUseCaseTest {
     }
 
     @Test
-    void saveInstitutionNotFound(){
+    void save_InstitutionNotFound(){
         when(institutionPersistencePort.findById(anyLong())).thenReturn(null);
 
         InstitutionNotFoundException ex = assertThrows(InstitutionNotFoundException.class, executableWithValidData);
 
         assertEquals(INSTITUTION_NOT_FOUND, ex.getMessage());
+    }
+
+    @Test
+    void save_EducationLevelNotFound(){
+        when(institutionPersistencePort.findById(anyLong())).thenReturn(institutionValid);
+        when(educationLevelPersistencePort.findByName(anyString())).thenReturn(null);
+
+        EducationLevelNotFoundException ex = assertThrows(EducationLevelNotFoundException.class, executableWithValidData);
+
+        assertEquals(EDUCATION_LEVEL_NOT_FOUND, ex.getMessage());
     }
 }
