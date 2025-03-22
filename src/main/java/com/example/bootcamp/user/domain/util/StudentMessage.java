@@ -10,6 +10,7 @@ public class StudentMessage {
     // EXCEPTION MESSAGE
     public static final String MESSAGE_KEY = "response";
     public static final String STUDENT_EXIST = "El estudiante ya se encuentra registrado dentro de la base de datos";
+    public static final String INSTITUTION_NOT_FOUND = "La institución envidad en la petición no se encuentra dentro de nuestra base de datos";
 
     // VALIDATION MESSAGE
     public static final String CITY_ID_IS_NULL_MESSAGE = "El id de la ciudad es requerido";

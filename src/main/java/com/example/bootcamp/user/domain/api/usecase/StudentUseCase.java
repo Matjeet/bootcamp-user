@@ -4,6 +4,7 @@ import com.example.bootcamp.user.domain.api.IStudentServicePort;
 import com.example.bootcamp.user.domain.exception.*;
 import com.example.bootcamp.user.domain.model.Student;
 import com.example.bootcamp.user.domain.model.StudentInstitution;
+import com.example.bootcamp.user.domain.spi.IInstitutionPersistencePort;
 import com.example.bootcamp.user.domain.spi.IStudentPersistencePort;
 
 import static com.example.bootcamp.user.domain.util.StudentMessage.*;
@@ -13,9 +14,13 @@ import static java.util.Objects.isNull;
 public class StudentUseCase implements IStudentServicePort {
 
     private final IStudentPersistencePort studentPersistencePort;
+    private final IInstitutionPersistencePort institutionPersistencePort;
 
-    public StudentUseCase(IStudentPersistencePort studentPersistencePort){
+    public StudentUseCase(
+            IStudentPersistencePort studentPersistencePort,
+            IInstitutionPersistencePort institutionPersistencePort){
         this.studentPersistencePort = studentPersistencePort;
+        this.institutionPersistencePort = institutionPersistencePort;
     }
 
     @Override
@@ -39,6 +44,10 @@ public class StudentUseCase implements IStudentServicePort {
 
         if(!isNull(studentPersistencePort.findByEmailOrIdentification(student.getEmail(), student.getIdentification()))){
             throw new StudentExistsException(STUDENT_EXIST);
+        }
+
+        if(isNull(institutionPersistencePort.findById(studentInstitution.getInstitution().getId()))){
+            throw new InstitutionNotFoundException(INSTITUTION_NOT_FOUND);
         }
 
         studentPersistencePort.save(student, studentInstitution);

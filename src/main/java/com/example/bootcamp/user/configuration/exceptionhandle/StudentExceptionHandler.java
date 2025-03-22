@@ -53,4 +53,10 @@ public class StudentExceptionHandler {
         responseException.put(MESSAGE_KEY, invalidAgeException.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
     }
+
+    @ExceptionHandler(InstitutionNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleInstitutionNotFoundException(InstitutionNotFoundException institutionNotFoundException){
+        responseException.put(MESSAGE_KEY, institutionNotFoundException.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
+    }
 }
