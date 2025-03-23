@@ -35,6 +35,8 @@ class StudentUseCaseTest {
     private ISourcePersistencePort sourcePersistencePort;
     @Mock
     private ICityPersistencePort cityPersistencePort;
+    @Mock
+    private IStudentInstitutionPersistencePort studentInstitutionPersistencePort;
     @InjectMocks
     private StudentUseCase studentUseCase;
 
@@ -91,11 +93,11 @@ class StudentUseCaseTest {
         when(developerRolPersistencePort.findByName(anyString())).thenReturn(developerRolValid);
         when(sourcePersistencePort.findByName(anyString())).thenReturn(sourceValid);
         when(cityPersistencePort.findById(anyLong())).thenReturn(new City());
-        doNothing().when(studentPersistencePort).save(studentValid, studentInstitutionValid);
+        doNothing().when(studentInstitutionPersistencePort).save(studentInstitutionValid);
 
         studentUseCase.save(studentValid, studentInstitutionValid);
 
-        verify(studentPersistencePort, times(ONE_TIME)).save(studentValid, studentInstitutionValid);
+        verify(studentInstitutionPersistencePort, times(ONE_TIME)).save(studentInstitutionValid);
         verify(studentPersistencePort, times(ONE_TIME)).findByEmailOrIdentification(any(), any());
     }
 
