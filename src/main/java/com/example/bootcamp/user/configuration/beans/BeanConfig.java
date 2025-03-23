@@ -2,20 +2,16 @@ package com.example.bootcamp.user.configuration.beans;
 
 import com.example.bootcamp.user.domain.api.IStudentServicePort;
 import com.example.bootcamp.user.domain.api.usecase.StudentUseCase;
+import com.example.bootcamp.user.domain.spi.IDeveloperRolPersistencePort;
 import com.example.bootcamp.user.domain.spi.IEducationLevelPersistencePort;
 import com.example.bootcamp.user.domain.spi.IInstitutionPersistencePort;
 import com.example.bootcamp.user.domain.spi.IStudentPersistencePort;
+import com.example.bootcamp.user.ports.driven.mysql.adapter.DeveloperRolAdapter;
 import com.example.bootcamp.user.ports.driven.mysql.adapter.EducationLevelAdapter;
 import com.example.bootcamp.user.ports.driven.mysql.adapter.InstitutionAdapter;
 import com.example.bootcamp.user.ports.driven.mysql.adapter.StudentAdapter;
-import com.example.bootcamp.user.ports.driven.mysql.mapper.IEducationLevelEntityMapper;
-import com.example.bootcamp.user.ports.driven.mysql.mapper.IInstitutionEntityMapper;
-import com.example.bootcamp.user.ports.driven.mysql.mapper.IStudentEntityMapper;
-import com.example.bootcamp.user.ports.driven.mysql.mapper.IStudentInstitutionEntityMapper;
-import com.example.bootcamp.user.ports.driven.mysql.repository.IEducationLevelRepository;
-import com.example.bootcamp.user.ports.driven.mysql.repository.IInstitutionRepository;
-import com.example.bootcamp.user.ports.driven.mysql.repository.IStudentInstitutionRepository;
-import com.example.bootcamp.user.ports.driven.mysql.repository.IStudentRepository;
+import com.example.bootcamp.user.ports.driven.mysql.mapper.*;
+import com.example.bootcamp.user.ports.driven.mysql.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,13 +28,16 @@ public class BeanConfig {
     private final IInstitutionEntityMapper institutionEntityMapper;
     private final IEducationLevelRepository educationLevelRepository;
     private final IEducationLevelEntityMapper educationLevelEntityMapper;
+    private final IDeveloperRolRepository developerRolRepository;
+    private final IDeveloperRolEntityMapper developerRolEntityMapper;
 
     @Bean
     public IStudentServicePort studentServicePort(){
         return new StudentUseCase(
                 studentPersistencePort(),
                 institutionPersistencePort(),
-                educationLevelPersistencePort()
+                educationLevelPersistencePort(),
+                developerRolPersistencePort()
         );
     }
 
@@ -65,6 +64,14 @@ public class BeanConfig {
         return new EducationLevelAdapter(
                 educationLevelRepository,
                 educationLevelEntityMapper
+        );
+    }
+
+    @Bean
+    public IDeveloperRolPersistencePort developerRolPersistencePort(){
+        return new DeveloperRolAdapter(
+                developerRolRepository,
+                developerRolEntityMapper
         );
     }
 

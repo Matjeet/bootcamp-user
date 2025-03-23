@@ -2,9 +2,11 @@ package com.example.bootcamp.user.domain.api.usecase;
 
 import com.example.bootcamp.user.domain.api.IStudentServicePort;
 import com.example.bootcamp.user.domain.exception.*;
+import com.example.bootcamp.user.domain.model.DeveloperRol;
 import com.example.bootcamp.user.domain.model.EducationLevel;
 import com.example.bootcamp.user.domain.model.Student;
 import com.example.bootcamp.user.domain.model.StudentInstitution;
+import com.example.bootcamp.user.domain.spi.IDeveloperRolPersistencePort;
 import com.example.bootcamp.user.domain.spi.IEducationLevelPersistencePort;
 import com.example.bootcamp.user.domain.spi.IInstitutionPersistencePort;
 import com.example.bootcamp.user.domain.spi.IStudentPersistencePort;
@@ -19,15 +21,18 @@ public class StudentUseCase implements IStudentServicePort {
     private final IStudentPersistencePort studentPersistencePort;
     private final IInstitutionPersistencePort institutionPersistencePort;
     private final IEducationLevelPersistencePort educationLevelPersistencePort;
+    private final IDeveloperRolPersistencePort developerRolPersistencePort;
 
     public StudentUseCase(
             IStudentPersistencePort studentPersistencePort,
             IInstitutionPersistencePort institutionPersistencePort,
-            IEducationLevelPersistencePort educationLevelPersistencePort
+            IEducationLevelPersistencePort educationLevelPersistencePort,
+            IDeveloperRolPersistencePort developerRolPersistencePort
     ){
         this.studentPersistencePort = studentPersistencePort;
         this.institutionPersistencePort = institutionPersistencePort;
         this.educationLevelPersistencePort = educationLevelPersistencePort;
+        this.developerRolPersistencePort = developerRolPersistencePort;
     }
 
     @Override
@@ -51,7 +56,12 @@ public class StudentUseCase implements IStudentServicePort {
 
         if(isNull(educationLevel)) throw new EducationLevelNotFoundException(EDUCATION_LEVEL_NOT_FOUND);
 
+        DeveloperRol developerRol = developerRolPersistencePort.findByName(student.getDeveloperRol().getName());
+
+        if(isNull(developerRol)) throw new DeveloperRolNotFoundException(DEVELOPER_ROL_NOT_FOUND);
+
         student.setEducationLevel(educationLevel);
+        student.setDeveloperRol(developerRol);
 
         studentPersistencePort.save(student, studentInstitution);
     }

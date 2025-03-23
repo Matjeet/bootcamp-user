@@ -13,10 +13,10 @@ public class Student {
     private String identificationType;
     private LocalDate birthDate;
     private EducationLevel educationLevel;
-    private String developerRol;
+    private DeveloperRol developerRol;
     private String courseDiscoverySource;
 
-    public Student(Long id, String email, String name, String lastname, String cellphone, String identification, String identificationType, LocalDate birthDate, EducationLevel educationLevel, String developerRol, String courseDiscoverySource) {
+    public Student(Long id, String email, String name, String lastname, String cellphone, String identification, String identificationType, LocalDate birthDate, EducationLevel educationLevel, DeveloperRol developerRol, String courseDiscoverySource) {
         this.id = id;
         this.email = email;
         this.name = name;
@@ -105,11 +105,11 @@ public class Student {
         this.educationLevel = educationLevel;
     }
 
-    public String getDeveloperRol() {
+    public DeveloperRol getDeveloperRol() {
         return developerRol;
     }
 
-    public void setDeveloperRol(String developerRol) {
+    public void setDeveloperRol(DeveloperRol developerRol) {
         this.developerRol = developerRol;
     }
 

@@ -12,6 +12,7 @@ public class StudentMessage {
     public static final String STUDENT_EXIST = "El estudiante ya se encuentra registrado dentro de la base de datos";
     public static final String INSTITUTION_NOT_FOUND = "La institución enviada en la petición no se encuentra dentro de nuestra base de datos";
     public static final String EDUCATION_LEVEL_NOT_FOUND = "El nivel de educación enviado en la petición no se encuentra dentro de nuestra base de datos";
+    public static final String DEVELOPER_ROL_NOT_FOUND = "El rol de desarrollador enviado en la petición no se encuentra dentro de nuestra base de datos";
 
     // VALIDATION MESSAGE
     public static final String CITY_ID_IS_NULL_MESSAGE = "El id de la ciudad es requerido";

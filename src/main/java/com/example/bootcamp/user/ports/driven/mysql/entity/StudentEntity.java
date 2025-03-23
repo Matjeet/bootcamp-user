@@ -28,6 +28,9 @@ public class StudentEntity {
     @ManyToOne
     @JoinColumn(name = "education_level", referencedColumnName = "id")
     private EducationLevelEntity educationLevel;
-    private String developerRol;
+
+    @ManyToOne
+    @JoinColumn(name = "developer_rol", referencedColumnName = "id")
+    private DeveloperRolEntity developerRol;
     private String courseDiscoverySource;
 }
