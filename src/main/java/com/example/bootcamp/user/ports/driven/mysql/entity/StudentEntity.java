@@ -32,5 +32,8 @@ public class StudentEntity {
     @ManyToOne
     @JoinColumn(name = "developer_rol", referencedColumnName = "id")
     private DeveloperRolEntity developerRol;
-    private String courseDiscoverySource;
+
+    @ManyToOne
+    @JoinColumn(name = "source", referencedColumnName = "id")
+    private SourceEntity courseDiscoverySource;
 }
