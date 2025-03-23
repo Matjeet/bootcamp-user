@@ -2,14 +2,8 @@ package com.example.bootcamp.user.configuration.beans;
 
 import com.example.bootcamp.user.domain.api.IStudentServicePort;
 import com.example.bootcamp.user.domain.api.usecase.StudentUseCase;
-import com.example.bootcamp.user.domain.spi.IDeveloperRolPersistencePort;
-import com.example.bootcamp.user.domain.spi.IEducationLevelPersistencePort;
-import com.example.bootcamp.user.domain.spi.IInstitutionPersistencePort;
-import com.example.bootcamp.user.domain.spi.IStudentPersistencePort;
-import com.example.bootcamp.user.ports.driven.mysql.adapter.DeveloperRolAdapter;
-import com.example.bootcamp.user.ports.driven.mysql.adapter.EducationLevelAdapter;
-import com.example.bootcamp.user.ports.driven.mysql.adapter.InstitutionAdapter;
-import com.example.bootcamp.user.ports.driven.mysql.adapter.StudentAdapter;
+import com.example.bootcamp.user.domain.spi.*;
+import com.example.bootcamp.user.ports.driven.mysql.adapter.*;
 import com.example.bootcamp.user.ports.driven.mysql.mapper.*;
 import com.example.bootcamp.user.ports.driven.mysql.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +24,8 @@ public class BeanConfig {
     private final IEducationLevelEntityMapper educationLevelEntityMapper;
     private final IDeveloperRolRepository developerRolRepository;
     private final IDeveloperRolEntityMapper developerRolEntityMapper;
+    private final ISourceRepository sourceRepository;
+    private final ISourceEntityMapper sourceEntityMapper;
 
     @Bean
     public IStudentServicePort studentServicePort(){
@@ -37,7 +33,8 @@ public class BeanConfig {
                 studentPersistencePort(),
                 institutionPersistencePort(),
                 educationLevelPersistencePort(),
-                developerRolPersistencePort()
+                developerRolPersistencePort(),
+                sourcePersistencePort()
         );
     }
 
@@ -72,6 +69,14 @@ public class BeanConfig {
         return new DeveloperRolAdapter(
                 developerRolRepository,
                 developerRolEntityMapper
+        );
+    }
+
+    @Bean
+    public ISourcePersistencePort sourcePersistencePort(){
+        return new SourceAdapter(
+                sourceRepository,
+                sourceEntityMapper
         );
     }
 
