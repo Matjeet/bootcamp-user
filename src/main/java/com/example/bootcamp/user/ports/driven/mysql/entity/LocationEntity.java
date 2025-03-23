@@ -20,10 +20,4 @@ public class LocationEntity {
     @ManyToOne
     @JoinColumn(name = "city", referencedColumnName = "id")
     private CityEntity city;
-    @ManyToOne
-    @JoinColumn(name = "student", referencedColumnName = "id")
-    private StudentEntity student;
-    @ManyToOne
-    @JoinColumn(name = "institution", referencedColumnName = "id")
-    private InstitutionEntity institution;
 }

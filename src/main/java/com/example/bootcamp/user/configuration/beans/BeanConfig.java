@@ -26,6 +26,8 @@ public class BeanConfig {
     private final IDeveloperRolEntityMapper developerRolEntityMapper;
     private final ISourceRepository sourceRepository;
     private final ISourceEntityMapper sourceEntityMapper;
+    private final ICityRepository cityRepository;
+    private final ICityEntityMapper cityEntityMapper;
 
     @Bean
     public IStudentServicePort studentServicePort(){
@@ -34,7 +36,8 @@ public class BeanConfig {
                 institutionPersistencePort(),
                 educationLevelPersistencePort(),
                 developerRolPersistencePort(),
-                sourcePersistencePort()
+                sourcePersistencePort(),
+                cityPersistencePort()
         );
     }
 
@@ -77,6 +80,14 @@ public class BeanConfig {
         return new SourceAdapter(
                 sourceRepository,
                 sourceEntityMapper
+        );
+    }
+
+    @Bean
+    public ICityPersistencePort cityPersistencePort(){
+        return new CityAdapter(
+                cityRepository,
+                cityEntityMapper
         );
     }
 

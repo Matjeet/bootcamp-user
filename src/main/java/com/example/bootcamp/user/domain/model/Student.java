@@ -15,8 +15,9 @@ public class Student {
     private EducationLevel educationLevel;
     private DeveloperRol developerRol;
     private Source courseDiscoverySource;
+    private Location location;
 
-    public Student(Long id, String email, String name, String lastname, String cellphone, String identification, String identificationType, LocalDate birthDate, EducationLevel educationLevel, DeveloperRol developerRol, Source courseDiscoverySource) {
+    public Student(Long id, String email, String name, String lastname, String cellphone, String identification, String identificationType, LocalDate birthDate, EducationLevel educationLevel, DeveloperRol developerRol, Source courseDiscoverySource, Location location) {
         this.id = id;
         this.email = email;
         this.name = name;
@@ -28,6 +29,7 @@ public class Student {
         this.educationLevel = educationLevel;
         this.developerRol = developerRol;
         this.courseDiscoverySource = courseDiscoverySource;
+        this.location = location;
     }
 
     public Student() {
@@ -119,5 +121,13 @@ public class Student {
 
     public void setCourseDiscoverySource(Source courseDiscoverySource) {
         this.courseDiscoverySource = courseDiscoverySource;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 }

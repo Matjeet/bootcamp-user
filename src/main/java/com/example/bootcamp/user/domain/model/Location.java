@@ -4,14 +4,14 @@ public class Location {
 
     private Long id;
     private Long cityId;
-    private Long institutionId;
-    private Long studentId;
+    private String address;
+    private String addressDetails;
 
-    public Location(Long id, Long cityId, Long institutionId, Long studentId) {
+    public Location(Long id, Long cityId, String address, String addressDetails) {
         this.id = id;
         this.cityId = cityId;
-        this.institutionId = institutionId;
-        this.studentId = studentId;
+        this.address = address;
+        this.addressDetails = addressDetails;
     }
 
     public Location() {
@@ -33,19 +33,19 @@ public class Location {
         this.cityId = cityId;
     }
 
-    public Long getInstitutionId() {
-        return institutionId;
+    public String getAddress() {
+        return address;
     }
 
-    public void setInstitutionId(Long institutionId) {
-        this.institutionId = institutionId;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public Long getStudentId() {
-        return studentId;
+    public String getAddressDetails() {
+        return addressDetails;
     }
 
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
+    public void setAddressDetails(String addressDetails) {
+        this.addressDetails = addressDetails;
     }
 }

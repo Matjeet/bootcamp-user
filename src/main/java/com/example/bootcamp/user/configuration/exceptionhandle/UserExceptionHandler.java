@@ -77,4 +77,10 @@ public class UserExceptionHandler {
         responseException.put(MESSAGE_KEY, courseDiscoverySourceNotFoundException.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
     }
+
+    @ExceptionHandler(CityNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleCityNotFoundException(CityNotFoundException cityNotFoundException){
+        responseException.put(MESSAGE_KEY, cityNotFoundException.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
+    }
 }

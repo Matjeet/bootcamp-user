@@ -36,4 +36,8 @@ public class StudentEntity {
     @ManyToOne
     @JoinColumn(name = "source", referencedColumnName = "id")
     private SourceEntity courseDiscoverySource;
+
+    @OneToOne
+    @JoinColumn(name = "location", referencedColumnName = "id")
+    private LocationEntity location;
 }

@@ -17,19 +17,22 @@ public class StudentUseCase implements IStudentServicePort {
     private final IEducationLevelPersistencePort educationLevelPersistencePort;
     private final IDeveloperRolPersistencePort developerRolPersistencePort;
     private final ISourcePersistencePort courseDiscoverySourcePersistencePort;
+    private final ICityPersistencePort cityPersistencePort;
 
     public StudentUseCase(
             IStudentPersistencePort studentPersistencePort,
             IInstitutionPersistencePort institutionPersistencePort,
             IEducationLevelPersistencePort educationLevelPersistencePort,
             IDeveloperRolPersistencePort developerRolPersistencePort,
-            ISourcePersistencePort courseDiscoverySourcePersistencePort
+            ISourcePersistencePort courseDiscoverySourcePersistencePort,
+            ICityPersistencePort cityPersistencePort
     ){
         this.studentPersistencePort = studentPersistencePort;
         this.institutionPersistencePort = institutionPersistencePort;
         this.educationLevelPersistencePort = educationLevelPersistencePort;
         this.developerRolPersistencePort = developerRolPersistencePort;
         this.courseDiscoverySourcePersistencePort = courseDiscoverySourcePersistencePort;
+        this.cityPersistencePort = cityPersistencePort;
     }
 
     @Override
@@ -54,6 +57,8 @@ public class StudentUseCase implements IStudentServicePort {
 
         Source courseDiscoverySource = courseDiscoverySourcePersistencePort.findByName(student.getCourseDiscoverySource().getName());
         if(isNull(courseDiscoverySource)) throw new SourceNotFoundException(SOURCE_NOT_FOUND);
+
+        if(isNull(cityPersistencePort.findById(student.getLocation().getCityId()))) throw new CityNotFoundException(CITY_NOT_FOUND);
 
         student.setEducationLevel(educationLevel);
         student.setDeveloperRol(developerRol);
