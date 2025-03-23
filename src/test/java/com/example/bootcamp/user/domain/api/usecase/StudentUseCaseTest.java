@@ -2,10 +2,7 @@ package com.example.bootcamp.user.domain.api.usecase;
 
 import com.example.bootcamp.user.domain.exception.*;
 import com.example.bootcamp.user.domain.model.*;
-import com.example.bootcamp.user.domain.spi.IDeveloperRolPersistencePort;
-import com.example.bootcamp.user.domain.spi.IEducationLevelPersistencePort;
-import com.example.bootcamp.user.domain.spi.IInstitutionPersistencePort;
-import com.example.bootcamp.user.domain.spi.IStudentPersistencePort;
+import com.example.bootcamp.user.domain.spi.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,6 +31,8 @@ class StudentUseCaseTest {
     private IEducationLevelPersistencePort educationLevelPersistencePort;
     @Mock
     private IDeveloperRolPersistencePort developerRolPersistencePort;
+    @Mock
+    private ISourcePersistencePort sourcePersistencePort;
     @InjectMocks
     private StudentUseCase studentUseCase;
 
@@ -42,6 +41,7 @@ class StudentUseCaseTest {
     private Institution institutionValid;
     private EducationLevel educationLevelValid;
     private DeveloperRol developerRolValid;
+    private Source sourceValid;
 
     private Executable executable;
     private Executable executableWithValidData;
@@ -54,6 +54,9 @@ class StudentUseCaseTest {
         developerRolValid = new DeveloperRol();
         developerRolValid.setName("BACK");
 
+        sourceValid = new Source();
+        sourceValid.setName("LINKEDIN");
+
         studentValid = new Student();
         studentValid.setEmail("mateo.velasquez@pragma.com.co");
         studentValid.setCellphone("+573226748955");
@@ -61,6 +64,7 @@ class StudentUseCaseTest {
         studentValid.setBirthDate(LocalDate.of(2002,11,29));
         studentValid.setEducationLevel(educationLevelValid);
         studentValid.setDeveloperRol(developerRolValid);
+        studentValid.setCourseDiscoverySource(sourceValid);
 
         institutionValid = new Institution();
         institutionValid.setId(1L);
@@ -78,6 +82,7 @@ class StudentUseCaseTest {
         when(institutionPersistencePort.findById(anyLong())).thenReturn(institutionValid);
         when(educationLevelPersistencePort.findByName(anyString())).thenReturn(educationLevelValid);
         when(developerRolPersistencePort.findByName(anyString())).thenReturn(developerRolValid);
+        when(sourcePersistencePort.findByName(anyString())).thenReturn(sourceValid);
         doNothing().when(studentPersistencePort).save(studentValid, studentInstitutionValid);
 
         studentUseCase.save(studentValid, studentInstitutionValid);
@@ -158,5 +163,17 @@ class StudentUseCaseTest {
         DeveloperRolNotFoundException ex = assertThrows(DeveloperRolNotFoundException.class, executableWithValidData);
 
         assertEquals(DEVELOPER_ROL_NOT_FOUND, ex.getMessage());
+    }
+
+    @Test
+    void save_SourceNotFound(){
+        when(institutionPersistencePort.findById(anyLong())).thenReturn(institutionValid);
+        when(educationLevelPersistencePort.findByName(anyString())).thenReturn(educationLevelValid);
+        when(developerRolPersistencePort.findByName(anyString())).thenReturn(developerRolValid);
+        when(sourcePersistencePort.findByName(anyString())).thenReturn(null);
+
+        SourceNotFoundException ex = assertThrows(SourceNotFoundException.class, executableWithValidData);
+
+        assertEquals(SOURCE_NOT_FOUND, ex.getMessage());
     }
 }
