@@ -2,14 +2,8 @@ package com.example.bootcamp.user.domain.api.usecase;
 
 import com.example.bootcamp.user.domain.api.IStudentServicePort;
 import com.example.bootcamp.user.domain.exception.*;
-import com.example.bootcamp.user.domain.model.DeveloperRol;
-import com.example.bootcamp.user.domain.model.EducationLevel;
-import com.example.bootcamp.user.domain.model.Student;
-import com.example.bootcamp.user.domain.model.StudentInstitution;
-import com.example.bootcamp.user.domain.spi.IDeveloperRolPersistencePort;
-import com.example.bootcamp.user.domain.spi.IEducationLevelPersistencePort;
-import com.example.bootcamp.user.domain.spi.IInstitutionPersistencePort;
-import com.example.bootcamp.user.domain.spi.IStudentPersistencePort;
+import com.example.bootcamp.user.domain.model.*;
+import com.example.bootcamp.user.domain.spi.*;
 
 import static com.example.bootcamp.user.domain.util.StudentMessage.*;
 import static com.example.bootcamp.user.domain.util.Validations.*;
@@ -22,28 +16,28 @@ public class StudentUseCase implements IStudentServicePort {
     private final IInstitutionPersistencePort institutionPersistencePort;
     private final IEducationLevelPersistencePort educationLevelPersistencePort;
     private final IDeveloperRolPersistencePort developerRolPersistencePort;
+    private final ISourcePersistencePort courseDiscoverySourcePersistencePort;
 
     public StudentUseCase(
             IStudentPersistencePort studentPersistencePort,
             IInstitutionPersistencePort institutionPersistencePort,
             IEducationLevelPersistencePort educationLevelPersistencePort,
-            IDeveloperRolPersistencePort developerRolPersistencePort
+            IDeveloperRolPersistencePort developerRolPersistencePort,
+            ISourcePersistencePort courseDiscoverySourcePersistencePort
     ){
         this.studentPersistencePort = studentPersistencePort;
         this.institutionPersistencePort = institutionPersistencePort;
         this.educationLevelPersistencePort = educationLevelPersistencePort;
         this.developerRolPersistencePort = developerRolPersistencePort;
+        this.courseDiscoverySourcePersistencePort = courseDiscoverySourcePersistencePort;
     }
 
     @Override
     public void save(Student student, StudentInstitution studentInstitution) {
 
         if(!isValidEmail(student.getEmail())) throw new InvalidEmailException(EMAIL_INVALID_MESSAGE);
-
         if(!isValidCellphone(student.getCellphone())) throw new InvalidCellphoneException(CELLPHONE_INVALID_MESSAGE);
-
         if(!isValidIdentification(student.getIdentification())) throw new InvalidIdentificationException(IDENTIFICATION_INVALID_MESSAGE);
-
         if(!isAdult(student.getBirthDate())) throw new InvalidAgeException(STUDENT_IS_NOT_AN_ADULT);
 
         if(nonNull(studentPersistencePort.findByEmailOrIdentification(student.getEmail(), student.getIdentification())))
@@ -53,15 +47,17 @@ public class StudentUseCase implements IStudentServicePort {
             throw new InstitutionNotFoundException(INSTITUTION_NOT_FOUND);
 
         EducationLevel educationLevel = educationLevelPersistencePort.findByName(student.getEducationLevel().getName());
-
         if(isNull(educationLevel)) throw new EducationLevelNotFoundException(EDUCATION_LEVEL_NOT_FOUND);
 
         DeveloperRol developerRol = developerRolPersistencePort.findByName(student.getDeveloperRol().getName());
-
         if(isNull(developerRol)) throw new DeveloperRolNotFoundException(DEVELOPER_ROL_NOT_FOUND);
+
+        Source courseDiscoverySource = courseDiscoverySourcePersistencePort.findByName(student.getCourseDiscoverySource().getName());
+        if(isNull(courseDiscoverySource)) throw new SourceNotFoundException(SOURCE_NOT_FOUND);
 
         student.setEducationLevel(educationLevel);
         student.setDeveloperRol(developerRol);
+        student.setCourseDiscoverySource(courseDiscoverySource);
 
         studentPersistencePort.save(student, studentInstitution);
     }

@@ -16,6 +16,7 @@ public interface IStudentMapper {
     //@Mapping(target = "educationLevel", source = "educationLevel.name")
     @ValueMapping(target = "educationLevel.name", source = "educationLevel")
     @ValueMapping(target = "developerRol.name", source = "developerRol")
+    @ValueMapping(target = "courseDiscoverySource.name", source = "courseDiscoverySource")
     Student toStudent(StudentRegisterDto studentRegisterDto);
 
     @Mapping(target = "id", ignore = true)

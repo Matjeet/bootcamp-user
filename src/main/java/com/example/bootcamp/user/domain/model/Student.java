@@ -14,9 +14,9 @@ public class Student {
     private LocalDate birthDate;
     private EducationLevel educationLevel;
     private DeveloperRol developerRol;
-    private String courseDiscoverySource;
+    private Source courseDiscoverySource;
 
-    public Student(Long id, String email, String name, String lastname, String cellphone, String identification, String identificationType, LocalDate birthDate, EducationLevel educationLevel, DeveloperRol developerRol, String courseDiscoverySource) {
+    public Student(Long id, String email, String name, String lastname, String cellphone, String identification, String identificationType, LocalDate birthDate, EducationLevel educationLevel, DeveloperRol developerRol, Source courseDiscoverySource) {
         this.id = id;
         this.email = email;
         this.name = name;
@@ -113,11 +113,11 @@ public class Student {
         this.developerRol = developerRol;
     }
 
-    public String getCourseDiscoverySource() {
+    public Source getCourseDiscoverySource() {
         return courseDiscoverySource;
     }
 
-    public void setCourseDiscoverySource(String courseDiscoverySource) {
+    public void setCourseDiscoverySource(Source courseDiscoverySource) {
         this.courseDiscoverySource = courseDiscoverySource;
     }
 }

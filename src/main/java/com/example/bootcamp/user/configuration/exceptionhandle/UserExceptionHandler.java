@@ -13,7 +13,7 @@ import java.util.Map;
 import static com.example.bootcamp.user.domain.util.StudentMessage.MESSAGE_KEY;
 
 @ControllerAdvice
-public class StudentExceptionHandler {
+public class UserExceptionHandler {
 
     Map<String, String> responseException = new HashMap<>();
 
@@ -69,6 +69,12 @@ public class StudentExceptionHandler {
     @ExceptionHandler(DeveloperRolNotFoundException.class)
     public ResponseEntity<Map<String, String>> handleDeveloperRolNotFoundException(DeveloperRolNotFoundException developerRolNotFoundException){
         responseException.put(MESSAGE_KEY, developerRolNotFoundException.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
+    }
+
+    @ExceptionHandler(SourceNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleCourseDiscoverySourceNotFoundException(SourceNotFoundException courseDiscoverySourceNotFoundException){
+        responseException.put(MESSAGE_KEY, courseDiscoverySourceNotFoundException.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
     }
 }
