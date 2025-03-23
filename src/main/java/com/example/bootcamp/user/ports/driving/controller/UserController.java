@@ -14,7 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.example.bootcamp.user.domain.util.StudentMessage.CREATED_MESSAGE;
+import static com.example.bootcamp.user.domain.util.StudentMessage.MESSAGE_KEY;
 
 @RestController
 @RequestMapping("api/v1/user")
@@ -24,12 +28,16 @@ public class UserController {
     private final IStudentMapper studentMapper;
     private final IStudentServicePort studentServicePort;
 
+    private final Map<String, String> simpleResponse = new HashMap<>();
+
     @PostMapping("/student")
-    public ResponseEntity<String> saveStudent(@Valid @RequestBody StudentRegisterDto studentRegisterDto){
+    public ResponseEntity<Map<String, String>> saveStudent(@Valid @RequestBody StudentRegisterDto studentRegisterDto){
         StudentInstitution studentInstitution = studentMapper.toStudentInstitution(studentRegisterDto);
         Student student = studentMapper.toStudent(studentRegisterDto);
         studentServicePort.save(student, studentInstitution);
-        return new ResponseEntity<>(CREATED_MESSAGE, HttpStatus.CREATED);
 
+        simpleResponse.put(MESSAGE_KEY, CREATED_MESSAGE);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(simpleResponse);
     }
 }
