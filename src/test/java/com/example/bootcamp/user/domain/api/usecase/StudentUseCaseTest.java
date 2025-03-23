@@ -1,10 +1,8 @@
 package com.example.bootcamp.user.domain.api.usecase;
 
 import com.example.bootcamp.user.domain.exception.*;
-import com.example.bootcamp.user.domain.model.EducationLevel;
-import com.example.bootcamp.user.domain.model.Institution;
-import com.example.bootcamp.user.domain.model.Student;
-import com.example.bootcamp.user.domain.model.StudentInstitution;
+import com.example.bootcamp.user.domain.model.*;
+import com.example.bootcamp.user.domain.spi.IDeveloperRolPersistencePort;
 import com.example.bootcamp.user.domain.spi.IEducationLevelPersistencePort;
 import com.example.bootcamp.user.domain.spi.IInstitutionPersistencePort;
 import com.example.bootcamp.user.domain.spi.IStudentPersistencePort;
@@ -34,6 +32,8 @@ class StudentUseCaseTest {
     private IInstitutionPersistencePort institutionPersistencePort;
     @Mock
     private IEducationLevelPersistencePort educationLevelPersistencePort;
+    @Mock
+    private IDeveloperRolPersistencePort developerRolPersistencePort;
     @InjectMocks
     private StudentUseCase studentUseCase;
 
@@ -41,6 +41,7 @@ class StudentUseCaseTest {
     private StudentInstitution studentInstitutionValid;
     private Institution institutionValid;
     private EducationLevel educationLevelValid;
+    private DeveloperRol developerRolValid;
 
     private Executable executable;
     private Executable executableWithValidData;
@@ -50,12 +51,16 @@ class StudentUseCaseTest {
         educationLevelValid = new EducationLevel();
         educationLevelValid.setName("TECHNICAL");
 
+        developerRolValid = new DeveloperRol();
+        developerRolValid.setName("BACK");
+
         studentValid = new Student();
         studentValid.setEmail("mateo.velasquez@pragma.com.co");
         studentValid.setCellphone("+573226748955");
         studentValid.setIdentification("2000757896");
         studentValid.setBirthDate(LocalDate.of(2002,11,29));
         studentValid.setEducationLevel(educationLevelValid);
+        studentValid.setDeveloperRol(developerRolValid);
 
         institutionValid = new Institution();
         institutionValid.setId(1L);
@@ -72,6 +77,7 @@ class StudentUseCaseTest {
         when(studentPersistencePort.findByEmailOrIdentification(any(), any())).thenReturn(null);
         when(institutionPersistencePort.findById(anyLong())).thenReturn(institutionValid);
         when(educationLevelPersistencePort.findByName(anyString())).thenReturn(educationLevelValid);
+        when(developerRolPersistencePort.findByName(anyString())).thenReturn(developerRolValid);
         doNothing().when(studentPersistencePort).save(studentValid, studentInstitutionValid);
 
         studentUseCase.save(studentValid, studentInstitutionValid);
@@ -141,5 +147,16 @@ class StudentUseCaseTest {
         EducationLevelNotFoundException ex = assertThrows(EducationLevelNotFoundException.class, executableWithValidData);
 
         assertEquals(EDUCATION_LEVEL_NOT_FOUND, ex.getMessage());
+    }
+
+    @Test
+    void save_DeveloperRolNotFound(){
+        when(institutionPersistencePort.findById(anyLong())).thenReturn(institutionValid);
+        when(educationLevelPersistencePort.findByName(anyString())).thenReturn(educationLevelValid);
+        when(developerRolPersistencePort.findByName(anyString())).thenReturn(null);
+
+        DeveloperRolNotFoundException ex = assertThrows(DeveloperRolNotFoundException.class, executableWithValidData);
+
+        assertEquals(DEVELOPER_ROL_NOT_FOUND, ex.getMessage());
     }
 }
