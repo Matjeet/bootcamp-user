@@ -65,4 +65,10 @@ public class StudentExceptionHandler {
         responseException.put(MESSAGE_KEY, educationLevelNotFoundException.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
     }
+
+    @ExceptionHandler(DeveloperRolNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleDeveloperRolNotFoundException(DeveloperRolNotFoundException developerRolNotFoundException){
+        responseException.put(MESSAGE_KEY, developerRolNotFoundException.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
+    }
 }
