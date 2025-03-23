@@ -37,7 +37,8 @@ public class BeanConfig {
                 educationLevelPersistencePort(),
                 developerRolPersistencePort(),
                 sourcePersistencePort(),
-                cityPersistencePort()
+                cityPersistencePort(),
+                studentInstitutionPersistencePort()
         );
     }
 
@@ -45,9 +46,7 @@ public class BeanConfig {
     public IStudentPersistencePort studentPersistencePort(){
         return new StudentAdapter(
                 studentRepository,
-                studentEntityMapper,
-                studentInstitutionRepository,
-                studentInstitutionEntityMapper
+                studentEntityMapper
         );
     }
 
@@ -88,6 +87,14 @@ public class BeanConfig {
         return new CityAdapter(
                 cityRepository,
                 cityEntityMapper
+        );
+    }
+
+    @Bean
+    public IStudentInstitutionPersistencePort studentInstitutionPersistencePort(){
+        return new StudentInstitutionAdapter(
+                studentInstitutionRepository,
+                studentInstitutionEntityMapper
         );
     }
 

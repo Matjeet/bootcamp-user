@@ -6,21 +6,17 @@ import com.example.bootcamp.user.ports.driving.dto.request.StudentRegisterDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
-import org.mapstruct.ValueMapping;
 
 @Mapper(componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface IStudentMapper {
 
-    //@Mapping(target = "educationLevel", source = "educationLevel.name")
-    @ValueMapping(target = "educationLevel.name", source = "educationLevel")
-    @ValueMapping(target = "developerRol.name", source = "developerRol")
-    @ValueMapping(target = "courseDiscoverySource.name", source = "courseDiscoverySource")
+    @Mapping(target = "educationLevel.name", source = "educationLevel")
+    @Mapping(target = "developerRol.name", source = "developerRol")
+    @Mapping(target = "courseDiscoverySource.name", source = "courseDiscoverySource")
     Student toStudent(StudentRegisterDto studentRegisterDto);
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "institution", ignore = true)
-    @Mapping(target = "student", ignore = true)
+    @Mapping(target = "institution.id", source = "institutionId")
     StudentInstitution toStudentInstitution(StudentRegisterDto studentRegisterDto);
 }

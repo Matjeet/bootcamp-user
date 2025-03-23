@@ -37,7 +37,7 @@ public class StudentEntity {
     @JoinColumn(name = "source", referencedColumnName = "id")
     private SourceEntity courseDiscoverySource;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "location", referencedColumnName = "id")
     private LocationEntity location;
 }

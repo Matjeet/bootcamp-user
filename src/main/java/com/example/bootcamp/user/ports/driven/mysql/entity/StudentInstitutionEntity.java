@@ -15,10 +15,12 @@ public class StudentInstitutionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne
     @JoinColumn(name = "institution", referencedColumnName = "id")
     private InstitutionEntity institution;
-    @ManyToOne
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "student", referencedColumnName = "id")
     private StudentEntity student;
     private String institutionDetail;

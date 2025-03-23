@@ -16,8 +16,8 @@ public class LocationEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String address;
-    private String addressDetail;
+    private String addressDetails;
     @ManyToOne
-    @JoinColumn(name = "city", referencedColumnName = "id")
+    @JoinColumn(name = "city", referencedColumnName = "id", nullable = false)
     private CityEntity city;
 }

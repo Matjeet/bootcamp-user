@@ -10,7 +10,5 @@ import org.mapstruct.ReportingPolicy;
         unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface IStudentEntityMapper {
 
-    StudentEntity toEntity(Student student);
-
     Student toModel(StudentEntity studentEntity);
 }

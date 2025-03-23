@@ -18,6 +18,7 @@ public class StudentUseCase implements IStudentServicePort {
     private final IDeveloperRolPersistencePort developerRolPersistencePort;
     private final ISourcePersistencePort courseDiscoverySourcePersistencePort;
     private final ICityPersistencePort cityPersistencePort;
+    private final IStudentInstitutionPersistencePort studentInstitutionPersistencePort;
 
     public StudentUseCase(
             IStudentPersistencePort studentPersistencePort,
@@ -25,7 +26,8 @@ public class StudentUseCase implements IStudentServicePort {
             IEducationLevelPersistencePort educationLevelPersistencePort,
             IDeveloperRolPersistencePort developerRolPersistencePort,
             ISourcePersistencePort courseDiscoverySourcePersistencePort,
-            ICityPersistencePort cityPersistencePort
+            ICityPersistencePort cityPersistencePort,
+            IStudentInstitutionPersistencePort studentInstitutionPersistencePort
     ){
         this.studentPersistencePort = studentPersistencePort;
         this.institutionPersistencePort = institutionPersistencePort;
@@ -33,6 +35,7 @@ public class StudentUseCase implements IStudentServicePort {
         this.developerRolPersistencePort = developerRolPersistencePort;
         this.courseDiscoverySourcePersistencePort = courseDiscoverySourcePersistencePort;
         this.cityPersistencePort = cityPersistencePort;
+        this.studentInstitutionPersistencePort = studentInstitutionPersistencePort;
     }
 
     @Override
@@ -64,6 +67,8 @@ public class StudentUseCase implements IStudentServicePort {
         student.setDeveloperRol(developerRol);
         student.setCourseDiscoverySource(courseDiscoverySource);
 
-        studentPersistencePort.save(student, studentInstitution);
+        studentInstitution.setStudent(student);
+
+        studentInstitutionPersistencePort.save(studentInstitution);
     }
 }
