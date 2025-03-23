@@ -33,6 +33,8 @@ class StudentUseCaseTest {
     private IDeveloperRolPersistencePort developerRolPersistencePort;
     @Mock
     private ISourcePersistencePort sourcePersistencePort;
+    @Mock
+    private ICityPersistencePort cityPersistencePort;
     @InjectMocks
     private StudentUseCase studentUseCase;
 
@@ -42,6 +44,7 @@ class StudentUseCaseTest {
     private EducationLevel educationLevelValid;
     private DeveloperRol developerRolValid;
     private Source sourceValid;
+    private Location locationValid;
 
     private Executable executable;
     private Executable executableWithValidData;
@@ -57,6 +60,9 @@ class StudentUseCaseTest {
         sourceValid = new Source();
         sourceValid.setName("LINKEDIN");
 
+        locationValid = new Location();
+        locationValid.setCityId(1L);
+
         studentValid = new Student();
         studentValid.setEmail("mateo.velasquez@pragma.com.co");
         studentValid.setCellphone("+573226748955");
@@ -65,6 +71,7 @@ class StudentUseCaseTest {
         studentValid.setEducationLevel(educationLevelValid);
         studentValid.setDeveloperRol(developerRolValid);
         studentValid.setCourseDiscoverySource(sourceValid);
+        studentValid.setLocation(locationValid);
 
         institutionValid = new Institution();
         institutionValid.setId(1L);
@@ -83,6 +90,7 @@ class StudentUseCaseTest {
         when(educationLevelPersistencePort.findByName(anyString())).thenReturn(educationLevelValid);
         when(developerRolPersistencePort.findByName(anyString())).thenReturn(developerRolValid);
         when(sourcePersistencePort.findByName(anyString())).thenReturn(sourceValid);
+        when(cityPersistencePort.findById(anyLong())).thenReturn(new City());
         doNothing().when(studentPersistencePort).save(studentValid, studentInstitutionValid);
 
         studentUseCase.save(studentValid, studentInstitutionValid);
@@ -175,5 +183,18 @@ class StudentUseCaseTest {
         SourceNotFoundException ex = assertThrows(SourceNotFoundException.class, executableWithValidData);
 
         assertEquals(SOURCE_NOT_FOUND, ex.getMessage());
+    }
+
+    @Test
+    void save_CityNotFound(){
+        when(institutionPersistencePort.findById(anyLong())).thenReturn(institutionValid);
+        when(educationLevelPersistencePort.findByName(anyString())).thenReturn(educationLevelValid);
+        when(developerRolPersistencePort.findByName(anyString())).thenReturn(developerRolValid);
+        when(sourcePersistencePort.findByName(anyString())).thenReturn(sourceValid);
+        when(cityPersistencePort.findById(anyLong())).thenReturn(null);
+
+        CityNotFoundException ex = assertThrows(CityNotFoundException.class, executableWithValidData);
+
+        assertEquals(CITY_NOT_FOUND, ex.getMessage());
     }
 }
