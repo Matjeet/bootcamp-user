@@ -4,5 +4,6 @@ public enum DeveloperRolEnum {
     BACK,
     FRONT,
     QA,
-    DEVOPS
+    DEVOPS,
+    FULLSTACK
 }
