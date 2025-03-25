@@ -13,8 +13,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 
+import static com.example.bootcamp.user.domain.util.DeveloperRolEnum.BACK;
 import static com.example.bootcamp.user.domain.util.StudentConstants.ONE_TIME;
 import static com.example.bootcamp.user.domain.util.StudentMessage.*;
+import static com.example.bootcamp.user.domain.util.TestConstants.VALID_EMAIL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -57,7 +59,7 @@ class StudentUseCaseTest {
         educationLevelValid.setName("TECHNICAL");
 
         developerRolValid = new DeveloperRol();
-        developerRolValid.setName("BACK");
+        developerRolValid.setName(BACK.name());
 
         sourceValid = new Source();
         sourceValid.setName("LINKEDIN");
@@ -66,7 +68,7 @@ class StudentUseCaseTest {
         locationValid.setCityId(1L);
 
         studentValid = new Student();
-        studentValid.setEmail("mateo.velasquez@pragma.com.co");
+        studentValid.setEmail(VALID_EMAIL);
         studentValid.setCellphone("+573226748955");
         studentValid.setIdentification("2000757896");
         studentValid.setBirthDate(LocalDate.of(2002,11,29));
