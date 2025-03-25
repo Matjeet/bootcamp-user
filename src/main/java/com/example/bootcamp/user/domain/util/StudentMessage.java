@@ -5,7 +5,8 @@ public class StudentMessage {
     private StudentMessage(){}
 
     // RESPONSE MESSAGE
-    public static final String CREATED_MESSAGE = "El estudiante se ha creado correctamente dentro de la base de datos";
+    public static final String CREATED_STUDENT_MESSAGE = "El estudiante se ha creado correctamente dentro de la base de datos";
+    public static final String CREATED_STAFF_MESSAGE = "El miembro del equipo se ha creado correctamente en la base de datos";
 
     // EXCEPTION MESSAGE
     public static final String MESSAGE_KEY = "response";
@@ -15,6 +16,9 @@ public class StudentMessage {
     public static final String DEVELOPER_ROL_NOT_FOUND = "El rol de desarrollador enviado en la petición no se encuentra dentro de nuestra base de datos";
     public static final String SOURCE_NOT_FOUND = "La fuente donde se descubrió el curso no se encuentra en la base de datos";
     public static final String CITY_NOT_FOUND = "La ciudad seleccionada no se encuentra en nuestra base de datos";
+    public static final String STAFF_MEMBER_EXIST = "El miembro del equipo ya se encuentra creado en base de datos";
+    public static final String STAFF_ROL_NOT_FOUND = "El rol de equipo no se encuentra en nuestra base de datos";
+    public static final String EMAIL_REGISTERED_AS_A_STUDENT = "El correo que se intenta ingresar se encuentra registrado como un estudiante";
 
     // VALIDATION MESSAGE
     public static final String CITY_ID_IS_NULL_MESSAGE = "El id de la ciudad es requerido";
@@ -47,5 +51,6 @@ public class StudentMessage {
     public static final String COURSE_DISCOVERY_SOURCE_IS_NULL_MESSAGE = "La fuente de descubrimiento del curso es requerido";
     public static final String LOCATION_IS_NULL_MESSAGE = "La ubicación es requerida";
     public static final String STUDENT_IS_NOT_AN_ADULT = "El usuario no tiene la mayoría de edad";
+    public static final String STAFF_ROLL_IS_NULL_MESSAGE = "El rol de miembro del equipo no puede ser nulo";
 
 }

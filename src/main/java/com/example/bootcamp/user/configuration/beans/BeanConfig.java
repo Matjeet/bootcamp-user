@@ -1,6 +1,8 @@
 package com.example.bootcamp.user.configuration.beans;
 
+import com.example.bootcamp.user.domain.api.IStaffServicePort;
 import com.example.bootcamp.user.domain.api.IStudentServicePort;
+import com.example.bootcamp.user.domain.api.usecase.StaffUseCase;
 import com.example.bootcamp.user.domain.api.usecase.StudentUseCase;
 import com.example.bootcamp.user.domain.spi.*;
 import com.example.bootcamp.user.ports.driven.mysql.adapter.*;
@@ -28,6 +30,10 @@ public class BeanConfig {
     private final ISourceEntityMapper sourceEntityMapper;
     private final ICityRepository cityRepository;
     private final ICityEntityMapper cityEntityMapper;
+    private final IStaffRepository staffRepository;
+    private final IStaffEntityMapper staffEntityMapper;
+    private final IStaffRolRepository staffRolRepository;
+    private final IStaffRolEntityMapper staffRolEntityMapper;
 
     @Bean
     public IStudentServicePort studentServicePort(){
@@ -39,6 +45,16 @@ public class BeanConfig {
                 sourcePersistencePort(),
                 cityPersistencePort(),
                 studentInstitutionPersistencePort()
+        );
+    }
+
+    @Bean
+    public IStaffServicePort staffServicePort(){
+        return new StaffUseCase(
+                staffPersistencePort(),
+                developerRolPersistencePort(),
+                staffRolPersistencePort(),
+                studentPersistencePort()
         );
     }
 
@@ -95,6 +111,22 @@ public class BeanConfig {
         return new StudentInstitutionAdapter(
                 studentInstitutionRepository,
                 studentInstitutionEntityMapper
+        );
+    }
+
+    @Bean
+    public IStaffPersistencePort staffPersistencePort(){
+        return new StaffAdapter(
+                staffRepository,
+                staffEntityMapper
+        );
+    }
+
+    @Bean
+    public IStaffRolPersistencePort staffRolPersistencePort(){
+        return new StaffRolAdapter(
+                staffRolRepository,
+                staffRolEntityMapper
         );
     }
 

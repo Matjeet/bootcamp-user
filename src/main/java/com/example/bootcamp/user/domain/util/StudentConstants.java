@@ -6,6 +6,7 @@ public class StudentConstants {
 
     // GENERAL
     public static final int LEGAL_AGE = 18;
+    public static final String EMPTY_STRING = "";
 
     // REGEX
     public static final String CELLPHONE_REGEX = "^\\+\\d{12,13}$";
