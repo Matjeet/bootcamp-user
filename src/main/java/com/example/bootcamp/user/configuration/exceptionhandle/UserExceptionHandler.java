@@ -3,6 +3,7 @@ package com.example.bootcamp.user.configuration.exceptionhandle;
 import com.example.bootcamp.user.domain.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -81,6 +82,30 @@ public class UserExceptionHandler {
     @ExceptionHandler(CityNotFoundException.class)
     public ResponseEntity<Map<String, String>> handleCityNotFoundException(CityNotFoundException cityNotFoundException){
         responseException.put(MESSAGE_KEY, cityNotFoundException.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
+    }
+
+    @ExceptionHandler(EmailRegisteredAsAStudentException.class)
+    public ResponseEntity<Map<String, String>> handleEmailRegisteredAsAStudentException(EmailRegisteredAsAStudentException emailRegisteredAsAStudentException){
+        responseException.put(MESSAGE_KEY, emailRegisteredAsAStudentException.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
+    }
+
+    @ExceptionHandler(StaffMemberExistException.class)
+    public ResponseEntity<Map<String, String>> handleStaffMemberExistException(StaffMemberExistException staffMemberExistException){
+        responseException.put(MESSAGE_KEY, staffMemberExistException.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
+    }
+
+    @ExceptionHandler(StaffRolNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleStaffRolNotFoundException(StaffRolNotFoundException staffRolNotFoundException){
+        responseException.put(MESSAGE_KEY, staffRolNotFoundException.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<Map<String, String>> handleHttpMessageNotReadableException(HttpMessageNotReadableException httpMessageNotReadableException){
+        responseException.put(MESSAGE_KEY, httpMessageNotReadableException.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
     }
 }
