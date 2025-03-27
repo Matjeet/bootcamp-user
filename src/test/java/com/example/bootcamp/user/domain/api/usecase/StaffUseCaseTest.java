@@ -17,6 +17,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 import static com.example.bootcamp.user.domain.util.DeveloperRolEnum.BACK;
 import static com.example.bootcamp.user.domain.util.StaffRolEnum.ADMIN;
 import static com.example.bootcamp.user.domain.util.StudentConstants.ONE_TIME;
@@ -94,7 +96,7 @@ class StaffUseCaseTest {
 
     @Test
     void save_StaffMemberExist(){
-        when(staffPersistencePort.findByEmail(anyString())).thenReturn(staffValid);
+        when(staffPersistencePort.findByEmail(anyString())).thenReturn(Optional.empty());
 
         StaffMemberExistException ex = assertThrows(StaffMemberExistException.class, executable);
 
