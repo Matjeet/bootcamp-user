@@ -40,7 +40,7 @@ public class StaffUseCase implements IStaffServicePort {
 
         if(!isValidEmail(staff.getEmail())) throw new InvalidEmailException(EMAIL_INVALID_MESSAGE);
 
-        if(nonNull(staffPersistencePort.findByEmail(staff.getEmail()))) throw new StaffMemberExistException(STAFF_MEMBER_EXIST);
+        if(staffPersistencePort.findByEmail(staff.getEmail()).isEmpty()) throw new StaffMemberExistException(STAFF_MEMBER_EXIST);
 
         if(nonNull(studentPersistencePort.findByEmailOrIdentification(staff.getEmail(), EMPTY_STRING)))
             throw new EmailRegisteredAsAStudentException(EMAIL_REGISTERED_AS_A_STUDENT);
