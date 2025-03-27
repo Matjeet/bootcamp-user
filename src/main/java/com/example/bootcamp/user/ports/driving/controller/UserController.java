@@ -53,4 +53,11 @@ public class UserController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(simpleResponse);
     }
+
+    @PostMapping(value = "/profile")
+    public ResponseEntity<Map<String, String>> saveProfile(){
+        simpleResponse.put(MESSAGE_KEY, CREATED_PROFILE_MESSAGE);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(simpleResponse);
+    }
 }
