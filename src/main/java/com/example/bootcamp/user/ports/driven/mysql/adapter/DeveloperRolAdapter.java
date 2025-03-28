@@ -6,6 +6,8 @@ import com.example.bootcamp.user.ports.driven.mysql.mapper.IDeveloperRolEntityMa
 import com.example.bootcamp.user.ports.driven.mysql.repository.IDeveloperRolRepository;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 public class DeveloperRolAdapter implements IDeveloperRolPersistencePort {
 
@@ -13,7 +15,7 @@ public class DeveloperRolAdapter implements IDeveloperRolPersistencePort {
     private final IDeveloperRolEntityMapper developerRolEntityMapper;
 
     @Override
-    public DeveloperRol findByName(String developerRolName) {
-        return developerRolEntityMapper.toModel(developerRolRepository.findByName(developerRolName).orElse(null));
+    public Optional<DeveloperRol> findByName(String developerRolName) {
+        return developerRolRepository.findByName(developerRolName).map(developerRolEntityMapper::toModel);
     }
 }

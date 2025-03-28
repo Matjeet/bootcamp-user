@@ -6,6 +6,8 @@ import com.example.bootcamp.user.ports.driven.mysql.mapper.ICityEntityMapper;
 import com.example.bootcamp.user.ports.driven.mysql.repository.ICityRepository;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 public class CityAdapter implements ICityPersistencePort {
 
@@ -13,7 +15,7 @@ public class CityAdapter implements ICityPersistencePort {
     private final ICityEntityMapper cityEntityMapper;
 
     @Override
-    public City findById(Long cityId) {
-        return cityEntityMapper.toModel(cityRepository.findById(cityId).orElse(null));
+    public Optional<City> findById(Long cityId) {
+        return cityRepository.findById(cityId).map(cityEntityMapper::toModel);
     }
 }

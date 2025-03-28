@@ -6,6 +6,8 @@ import com.example.bootcamp.user.ports.driven.mysql.mapper.IInstitutionEntityMap
 import com.example.bootcamp.user.ports.driven.mysql.repository.IInstitutionRepository;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 public class InstitutionAdapter implements IInstitutionPersistencePort {
 
@@ -13,7 +15,7 @@ public class InstitutionAdapter implements IInstitutionPersistencePort {
     private final IInstitutionEntityMapper institutionEntityMapper;
 
     @Override
-    public Institution findById(Long institutionId) {
-        return institutionEntityMapper.toOptionalModel(institutionRepository.findById(institutionId).orElse(null));
+    public Optional<Institution> findById(Long institutionId) {
+        return institutionRepository.findById(institutionId).map(institutionEntityMapper::toModel);
     }
 }

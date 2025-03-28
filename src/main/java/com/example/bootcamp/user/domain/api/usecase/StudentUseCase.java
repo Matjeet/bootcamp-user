@@ -5,10 +5,11 @@ import com.example.bootcamp.user.domain.exception.*;
 import com.example.bootcamp.user.domain.model.*;
 import com.example.bootcamp.user.domain.spi.*;
 
+import java.util.Optional;
+
 import static com.example.bootcamp.user.domain.util.StudentMessage.*;
 import static com.example.bootcamp.user.domain.util.Validations.*;
 import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 
 public class StudentUseCase implements IStudentServicePort {
 
@@ -46,26 +47,32 @@ public class StudentUseCase implements IStudentServicePort {
         if(!isValidIdentification(student.getIdentification())) throw new InvalidIdentificationException(IDENTIFICATION_INVALID_MESSAGE);
         if(!isAdult(student.getBirthDate())) throw new InvalidAgeException(STUDENT_IS_NOT_AN_ADULT);
 
-        if(nonNull(studentPersistencePort.findByEmailOrIdentification(student.getEmail(), student.getIdentification())))
+        if(studentPersistencePort.findByEmailOrIdentification(student.getEmail(), student.getIdentification()).isPresent())
             throw new StudentExistsException(STUDENT_EXIST);
 
-        if(isNull(institutionPersistencePort.findById(studentInstitution.getInstitution().getId())))
+        if(institutionPersistencePort.findById(studentInstitution.getInstitution().getId()).isEmpty())
             throw new InstitutionNotFoundException(INSTITUTION_NOT_FOUND);
 
-        EducationLevel educationLevel = educationLevelPersistencePort.findByName(student.getEducationLevel().getName());
-        if(isNull(educationLevel)) throw new EducationLevelNotFoundException(EDUCATION_LEVEL_NOT_FOUND);
+        Optional<EducationLevel> educationLevel = educationLevelPersistencePort.findByName(student.getEducationLevel().getName());
+        if(educationLevel.isEmpty()) throw new EducationLevelNotFoundException(EDUCATION_LEVEL_NOT_FOUND);
 
-        DeveloperRol developerRol = developerRolPersistencePort.findByName(student.getDeveloperRol().getName());
-        if(isNull(developerRol)) throw new DeveloperRolNotFoundException(DEVELOPER_ROL_NOT_FOUND);
+        Optional<DeveloperRol> developerRol = developerRolPersistencePort.findByName(student.getDeveloperRol().getName());
+        if(developerRol.isEmpty()) throw new DeveloperRolNotFoundException(DEVELOPER_ROL_NOT_FOUND);
 
-        Source courseDiscoverySource = courseDiscoverySourcePersistencePort.findByName(student.getCourseDiscoverySource().getName());
-        if(isNull(courseDiscoverySource)) throw new SourceNotFoundException(SOURCE_NOT_FOUND);
+        Optional<Source> courseDiscoverySource = courseDiscoverySourcePersistencePort.findByName(student.getCourseDiscoverySource().getName());
+        if(courseDiscoverySource.isEmpty()) throw new SourceNotFoundException(SOURCE_NOT_FOUND);
 
-        if(isNull(cityPersistencePort.findById(student.getLocation().getCityId()))) throw new CityNotFoundException(CITY_NOT_FOUND);
+        if(cityPersistencePort.findById(student.getLocation().getCityId()).isEmpty()) throw new CityNotFoundException(CITY_NOT_FOUND);
 
-        student.setEducationLevel(educationLevel);
-        student.setDeveloperRol(developerRol);
-        student.setCourseDiscoverySource(courseDiscoverySource);
+        student.setEducationLevel(educationLevel.get());
+        student.setDeveloperRol(developerRol.get());
+        student.setCourseDiscoverySource(courseDiscoverySource.get());
+
+        studentInstitution.setInstitutionDetail(
+                isNull(studentInstitution.getInstitutionDetail()) ?
+                        studentInstitution.getInstitutionDetail() :
+                        studentInstitution.getInstitutionDetail().trim()
+                );
 
         studentInstitution.setStudent(student);
 
