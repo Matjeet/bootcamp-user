@@ -67,8 +67,10 @@ class StaffUseCaseTest {
 
     @Test
     void save() {
-        when(developerRolPersistencePort.findByName(anyString())).thenReturn(developerRolValid);
-        when(staffRolPersistencePort.findByName(anyString())).thenReturn(staffRolValid);
+        when(staffPersistencePort.findByEmail(anyString())).thenReturn(Optional.empty());
+        when(studentPersistencePort.findByEmailOrIdentification(anyString(), anyString())).thenReturn(Optional.empty());
+        when(developerRolPersistencePort.findByName(anyString())).thenReturn(Optional.of(developerRolValid));
+        when(staffRolPersistencePort.findByName(anyString())).thenReturn(Optional.of(staffRolValid));
         doNothing().when(staffPersistencePort).save(staffValid);
 
         staffUseCase.save(staffValid);
@@ -96,7 +98,7 @@ class StaffUseCaseTest {
 
     @Test
     void save_StaffMemberExist(){
-        when(staffPersistencePort.findByEmail(anyString())).thenReturn(Optional.empty());
+        when(staffPersistencePort.findByEmail(anyString())).thenReturn(Optional.of(new Staff()));
 
         StaffMemberExistException ex = assertThrows(StaffMemberExistException.class, executable);
 
@@ -105,6 +107,8 @@ class StaffUseCaseTest {
 
     @Test
     void save_DeveloperRolNotFound(){
+        when(staffPersistencePort.findByEmail(anyString())).thenReturn(Optional.empty());
+        when(studentPersistencePort.findByEmailOrIdentification(anyString(), anyString())).thenReturn(Optional.empty());
         DeveloperRolNotFoundException ex = assertThrows(DeveloperRolNotFoundException.class, executable);
 
         assertEquals(DEVELOPER_ROL_NOT_FOUND, ex.getMessage());
@@ -112,7 +116,10 @@ class StaffUseCaseTest {
 
     @Test
     void save_StaffRolNotFound(){
-        when(developerRolPersistencePort.findByName(anyString())).thenReturn(developerRolValid);
+        when(staffPersistencePort.findByEmail(anyString())).thenReturn(Optional.empty());
+        when(studentPersistencePort.findByEmailOrIdentification(anyString(), anyString())).thenReturn(Optional.empty());
+        when(developerRolPersistencePort.findByName(anyString())).thenReturn(Optional.of(developerRolValid));
+        when(staffRolPersistencePort.findByName(anyString())).thenReturn(Optional.empty());
 
         StaffRolNotFoundException ex = assertThrows(StaffRolNotFoundException.class, executable);
 
@@ -121,7 +128,8 @@ class StaffUseCaseTest {
 
     @Test
     void save_EmailIsRegisteredAsAStudent(){
-        when(studentPersistencePort.findByEmailOrIdentification(anyString(), anyString())).thenReturn(new Student());
+        when(staffPersistencePort.findByEmail(anyString())).thenReturn(Optional.empty());
+        when(studentPersistencePort.findByEmailOrIdentification(anyString(), anyString())).thenReturn(Optional.of(new Student()));
 
         EmailRegisteredAsAStudentException ex = assertThrows(EmailRegisteredAsAStudentException.class, executable);
 
