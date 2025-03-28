@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static com.example.bootcamp.user.domain.util.DeveloperRolEnum.BACK;
 import static com.example.bootcamp.user.domain.util.StudentConstants.ONE_TIME;
@@ -89,12 +90,12 @@ class StudentUseCaseTest {
 
     @Test
     void saveSuccess(){
-        when(studentPersistencePort.findByEmailOrIdentification(any(), any())).thenReturn(null);
-        when(institutionPersistencePort.findById(anyLong())).thenReturn(institutionValid);
-        when(educationLevelPersistencePort.findByName(anyString())).thenReturn(educationLevelValid);
-        when(developerRolPersistencePort.findByName(anyString())).thenReturn(developerRolValid);
-        when(sourcePersistencePort.findByName(anyString())).thenReturn(sourceValid);
-        when(cityPersistencePort.findById(anyLong())).thenReturn(new City());
+        when(studentPersistencePort.findByEmailOrIdentification(any(), any())).thenReturn(Optional.empty());
+        when(institutionPersistencePort.findById(anyLong())).thenReturn(Optional.of(institutionValid));
+        when(educationLevelPersistencePort.findByName(anyString())).thenReturn(Optional.of(educationLevelValid));
+        when(developerRolPersistencePort.findByName(anyString())).thenReturn(Optional.of(developerRolValid));
+        when(sourcePersistencePort.findByName(anyString())).thenReturn(Optional.of(sourceValid));
+        when(cityPersistencePort.findById(anyLong())).thenReturn(Optional.of(new City()));
         doNothing().when(studentInstitutionPersistencePort).save(studentInstitutionValid);
 
         studentUseCase.save(studentValid, studentInstitutionValid);
@@ -105,7 +106,7 @@ class StudentUseCaseTest {
 
     @Test
     void save_EmailExistInDataBase() {
-        when(studentPersistencePort.findByEmailOrIdentification(any(), any())).thenReturn(new Student());
+        when(studentPersistencePort.findByEmailOrIdentification(any(), any())).thenReturn(Optional.of(studentValid));
 
         StudentExistsException ex = assertThrows(StudentExistsException.class, executableWithValidData);
 
@@ -149,7 +150,8 @@ class StudentUseCaseTest {
 
     @Test
     void save_InstitutionNotFound(){
-        when(institutionPersistencePort.findById(anyLong())).thenReturn(null);
+        when(studentPersistencePort.findByEmailOrIdentification(anyString(), anyString())).thenReturn(Optional.empty());
+        when(institutionPersistencePort.findById(anyLong())).thenReturn(Optional.empty());
 
         InstitutionNotFoundException ex = assertThrows(InstitutionNotFoundException.class, executableWithValidData);
 
@@ -158,8 +160,9 @@ class StudentUseCaseTest {
 
     @Test
     void save_EducationLevelNotFound(){
-        when(institutionPersistencePort.findById(anyLong())).thenReturn(institutionValid);
-        when(educationLevelPersistencePort.findByName(anyString())).thenReturn(null);
+        when(studentPersistencePort.findByEmailOrIdentification(anyString(), anyString())).thenReturn(Optional.empty());
+        when(institutionPersistencePort.findById(anyLong())).thenReturn(Optional.of(institutionValid));
+        when(educationLevelPersistencePort.findByName(anyString())).thenReturn(Optional.empty());
 
         EducationLevelNotFoundException ex = assertThrows(EducationLevelNotFoundException.class, executableWithValidData);
 
@@ -168,9 +171,9 @@ class StudentUseCaseTest {
 
     @Test
     void save_DeveloperRolNotFound(){
-        when(institutionPersistencePort.findById(anyLong())).thenReturn(institutionValid);
-        when(educationLevelPersistencePort.findByName(anyString())).thenReturn(educationLevelValid);
-        when(developerRolPersistencePort.findByName(anyString())).thenReturn(null);
+        when(institutionPersistencePort.findById(anyLong())).thenReturn(Optional.of(institutionValid));
+        when(educationLevelPersistencePort.findByName(anyString())).thenReturn(Optional.of(educationLevelValid));
+        when(developerRolPersistencePort.findByName(anyString())).thenReturn(Optional.empty());
 
         DeveloperRolNotFoundException ex = assertThrows(DeveloperRolNotFoundException.class, executableWithValidData);
 
@@ -179,10 +182,10 @@ class StudentUseCaseTest {
 
     @Test
     void save_SourceNotFound(){
-        when(institutionPersistencePort.findById(anyLong())).thenReturn(institutionValid);
-        when(educationLevelPersistencePort.findByName(anyString())).thenReturn(educationLevelValid);
-        when(developerRolPersistencePort.findByName(anyString())).thenReturn(developerRolValid);
-        when(sourcePersistencePort.findByName(anyString())).thenReturn(null);
+        when(institutionPersistencePort.findById(anyLong())).thenReturn(Optional.of(institutionValid));
+        when(educationLevelPersistencePort.findByName(anyString())).thenReturn(Optional.of(educationLevelValid));
+        when(developerRolPersistencePort.findByName(anyString())).thenReturn(Optional.of(developerRolValid));
+        when(sourcePersistencePort.findByName(anyString())).thenReturn(Optional.empty());
 
         SourceNotFoundException ex = assertThrows(SourceNotFoundException.class, executableWithValidData);
 
@@ -191,11 +194,11 @@ class StudentUseCaseTest {
 
     @Test
     void save_CityNotFound(){
-        when(institutionPersistencePort.findById(anyLong())).thenReturn(institutionValid);
-        when(educationLevelPersistencePort.findByName(anyString())).thenReturn(educationLevelValid);
-        when(developerRolPersistencePort.findByName(anyString())).thenReturn(developerRolValid);
-        when(sourcePersistencePort.findByName(anyString())).thenReturn(sourceValid);
-        when(cityPersistencePort.findById(anyLong())).thenReturn(null);
+        when(institutionPersistencePort.findById(anyLong())).thenReturn(Optional.of(institutionValid));
+        when(educationLevelPersistencePort.findByName(anyString())).thenReturn(Optional.of(educationLevelValid));
+        when(developerRolPersistencePort.findByName(anyString())).thenReturn(Optional.of(developerRolValid));
+        when(sourcePersistencePort.findByName(anyString())).thenReturn(Optional.of(sourceValid));
+        when(cityPersistencePort.findById(anyLong())).thenReturn(Optional.empty());
 
         CityNotFoundException ex = assertThrows(CityNotFoundException.class, executableWithValidData);
 
