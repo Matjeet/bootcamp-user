@@ -2,7 +2,9 @@ package com.example.bootcamp.user.domain.spi;
 
 import com.example.bootcamp.user.domain.model.StaffRol;
 
+import java.util.Optional;
+
 public interface IStaffRolPersistencePort {
 
-    StaffRol findByName(String staffRolName);
+    Optional<StaffRol> findByName(String staffRolName);
 }

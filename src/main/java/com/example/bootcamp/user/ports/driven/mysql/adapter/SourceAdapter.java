@@ -6,6 +6,8 @@ import com.example.bootcamp.user.ports.driven.mysql.mapper.ISourceEntityMapper;
 import com.example.bootcamp.user.ports.driven.mysql.repository.ISourceRepository;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 public class SourceAdapter implements ISourcePersistencePort {
 
@@ -13,7 +15,7 @@ public class SourceAdapter implements ISourcePersistencePort {
     private final ISourceEntityMapper sourceEntityMapper;
 
     @Override
-    public Source findByName(String sourceName) {
-        return sourceEntityMapper.toModel(sourceRepository.findByName(sourceName).orElse(null));
+    public Optional<Source> findByName(String sourceName) {
+        return sourceRepository.findByName(sourceName).map(sourceEntityMapper::toModel);
     }
 }

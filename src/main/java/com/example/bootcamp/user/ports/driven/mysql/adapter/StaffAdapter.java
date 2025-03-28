@@ -6,6 +6,8 @@ import com.example.bootcamp.user.ports.driven.mysql.mapper.IStaffEntityMapper;
 import com.example.bootcamp.user.ports.driven.mysql.repository.IStaffRepository;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 public class StaffAdapter implements IStaffPersistencePort {
 
@@ -18,7 +20,7 @@ public class StaffAdapter implements IStaffPersistencePort {
     }
 
     @Override
-    public Staff findByEmail(String emailMember) {
-        return staffEntityMapper.toModel(staffRepository.findByEmail(emailMember).orElse(null));
+    public Optional<Staff> findByEmail(String emailMember) {
+        return staffEntityMapper.toOptionalModel(staffRepository.findByEmail(emailMember));
     }
 }
