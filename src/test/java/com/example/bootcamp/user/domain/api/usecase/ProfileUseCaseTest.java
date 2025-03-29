@@ -21,6 +21,7 @@ import static com.example.bootcamp.user.domain.util.DeveloperRolEnum.BACK;
 import static com.example.bootcamp.user.domain.util.StaffRolEnum.ADMIN;
 import static com.example.bootcamp.user.domain.util.StudentConstants.ONE_TIME;
 import static com.example.bootcamp.user.domain.util.StudentMessage.*;
+import static com.example.bootcamp.user.domain.util.TestConstants.DESCRIPTION_TOO_LONG;
 import static com.example.bootcamp.user.domain.util.TestConstants.FIRST_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -67,6 +68,7 @@ class ProfileUseCaseTest {
         profileValid.setHobbies(List.of(hobbyValid, hobbyValid));
         profileValid.setDeveloperRol(BACK.name());
         profileValid.setStaffRol(ADMIN.name());
+        profileValid.setDescription("Test Description");
 
         executable = () -> profileUseCase.save(profileValid);
     }
@@ -175,6 +177,20 @@ class ProfileUseCaseTest {
         StaffRolNotFoundException ex = assertThrows(StaffRolNotFoundException.class, executable);
 
         assertEquals(STAFF_ROL_NOT_FOUND, ex.getMessage());
+    }
 
+    @Test
+    void save_DescriptionTooLong(){
+        profileValid.setDescription("A".repeat(DESCRIPTION_TOO_LONG));
+
+        when(studentPersistencePort.findById(anyLong())).thenReturn(Optional.of(new Student()));
+        when(badgesPersistencePort.findAllBadges(anyList())).thenReturn(List.of(badgeValid, badgeValid));
+        when(hobbyPersistencePort.findAllById(anyList())).thenReturn(List.of(hobbyValid, hobbyValid));
+        when(developerRolPersistencePort.findByName(anyString())).thenReturn(Optional.of(new DeveloperRol()));
+        when(staffRolPersistencePort.findByName(anyString())).thenReturn(Optional.of(new StaffRol()));
+
+        DescriptionTooLongException ex = assertThrows(DescriptionTooLongException.class, executable);
+
+        assertEquals(DESCRIPTION_TOO_LONG_MESSAGE, ex.getMessage());
     }
 }
