@@ -1,9 +1,6 @@
 package com.example.bootcamp.user.domain.api.usecase;
 
-import com.example.bootcamp.user.domain.exception.BadgesNotFoundException;
-import com.example.bootcamp.user.domain.exception.DeveloperRolNotFoundException;
-import com.example.bootcamp.user.domain.exception.HobbiesNotFoundException;
-import com.example.bootcamp.user.domain.exception.UserNotFoundException;
+import com.example.bootcamp.user.domain.exception.*;
 import com.example.bootcamp.user.domain.model.*;
 import com.example.bootcamp.user.domain.spi.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.example.bootcamp.user.domain.util.DeveloperRolEnum.BACK;
+import static com.example.bootcamp.user.domain.util.StaffRolEnum.ADMIN;
 import static com.example.bootcamp.user.domain.util.StudentConstants.ONE_TIME;
 import static com.example.bootcamp.user.domain.util.StudentMessage.*;
 import static com.example.bootcamp.user.domain.util.TestConstants.FIRST_ID;
@@ -44,6 +42,8 @@ class ProfileUseCaseTest {
     private IHobbyPersistencePort hobbyPersistencePort;
     @Mock
     private IDeveloperRolPersistencePort developerRolPersistencePort;
+    @Mock
+    private IStaffRolPersistencePort staffRolPersistencePort;
     @InjectMocks
     private ProfileUseCase profileUseCase;
 
@@ -66,6 +66,7 @@ class ProfileUseCaseTest {
         profileValid.setBadges(List.of(badgeValid, badgeValid));
         profileValid.setHobbies(List.of(hobbyValid, hobbyValid));
         profileValid.setDeveloperRol(BACK.name());
+        profileValid.setStaffRol(ADMIN.name());
 
         executable = () -> profileUseCase.save(profileValid);
     }
@@ -76,6 +77,7 @@ class ProfileUseCaseTest {
         when(badgesPersistencePort.findAllBadges(anyList())).thenReturn(List.of(badgeValid, badgeValid));
         when(hobbyPersistencePort.findAllById(anyList())).thenReturn(List.of(hobbyValid, hobbyValid));
         when(developerRolPersistencePort.findByName(anyString())).thenReturn(Optional.of(new DeveloperRol()));
+        when(staffRolPersistencePort.findByName(anyString())).thenReturn(Optional.of(new StaffRol()));
         doNothing().when(profilePersistencePort).save(any(Profile.class));
 
         profileUseCase.save(profileValid);
@@ -109,6 +111,7 @@ class ProfileUseCaseTest {
         when(badgesPersistencePort.findAllBadges(anyList())).thenReturn(List.of(badgeValid));
         when(hobbyPersistencePort.findAllById(anyList())).thenReturn(List.of(hobbyValid, hobbyValid));
         when(developerRolPersistencePort.findByName(anyString())).thenReturn(Optional.of(new DeveloperRol()));
+        when(staffRolPersistencePort.findByName(anyString())).thenReturn(Optional.of(new StaffRol()));
 
         String expectedLogMessage = MessageFormatter.arrayFormat(
                 MISSING_INFO + SOME_BADGES_NOT_FOUND,
@@ -137,6 +140,7 @@ class ProfileUseCaseTest {
         when(badgesPersistencePort.findAllBadges(anyList())).thenReturn(List.of(badgeValid, badgeValid));
         when(hobbyPersistencePort.findAllById(anyList())).thenReturn(List.of(hobbyValid));
         when(developerRolPersistencePort.findByName(anyString())).thenReturn(Optional.of(new DeveloperRol()));
+        when(staffRolPersistencePort.findByName(anyString())).thenReturn(Optional.of(new StaffRol()));
 
         String expectedLogMessage = MessageFormatter.arrayFormat(
                 MISSING_INFO + SOME_HOBBIES_NOT_FOUND,
@@ -158,5 +162,19 @@ class ProfileUseCaseTest {
         DeveloperRolNotFoundException ex = assertThrows(DeveloperRolNotFoundException.class, executable);
 
         assertEquals(DEVELOPER_ROL_NOT_FOUND, ex.getMessage());
+    }
+
+    @Test
+    void save_StaffRolNotFound(){
+        when(studentPersistencePort.findById(anyLong())).thenReturn(Optional.of(new Student()));
+        when(badgesPersistencePort.findAllBadges(anyList())).thenReturn(List.of(badgeValid, badgeValid));
+        when(hobbyPersistencePort.findAllById(anyList())).thenReturn(List.of(hobbyValid, hobbyValid));
+        when(developerRolPersistencePort.findByName(anyString())).thenReturn(Optional.of(new DeveloperRol()));
+        when(staffRolPersistencePort.findByName(anyString())).thenReturn(Optional.empty());
+
+        StaffRolNotFoundException ex = assertThrows(StaffRolNotFoundException.class, executable);
+
+        assertEquals(STAFF_ROL_NOT_FOUND, ex.getMessage());
+
     }
 }
