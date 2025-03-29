@@ -1,10 +1,7 @@
 package com.example.bootcamp.user.domain.api.usecase;
 
 import com.example.bootcamp.user.domain.api.IProfileServicePort;
-import com.example.bootcamp.user.domain.exception.BadgesNotFoundException;
-import com.example.bootcamp.user.domain.exception.DeveloperRolNotFoundException;
-import com.example.bootcamp.user.domain.exception.HobbiesNotFoundException;
-import com.example.bootcamp.user.domain.exception.UserNotFoundException;
+import com.example.bootcamp.user.domain.exception.*;
 import com.example.bootcamp.user.domain.model.Badge;
 import com.example.bootcamp.user.domain.model.Hobby;
 import com.example.bootcamp.user.domain.model.Profile;
@@ -24,6 +21,7 @@ public class ProfileUseCase implements IProfileServicePort {
     private final IBadgesPersistencePort badgesPersistencePort;
     private final IHobbyPersistencePort hobbyPersistencePort;
     private final IDeveloperRolPersistencePort developerRolPersistencePort;
+    private final IStaffRolPersistencePort staffRolPersistencePort;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProfileUseCase.class);
 
@@ -33,7 +31,8 @@ public class ProfileUseCase implements IProfileServicePort {
             IStaffPersistencePort staffPersistencePort,
             IBadgesPersistencePort badgesPersistencePort,
             IHobbyPersistencePort hobbyPersistencePort,
-            IDeveloperRolPersistencePort developerRolPersistencePort
+            IDeveloperRolPersistencePort developerRolPersistencePort,
+            IStaffRolPersistencePort staffRolPersistencePort
     ){
         this.profilePersistencePort = profilePersistencePort;
         this.studentPersistencePort = studentPersistencePort;
@@ -41,6 +40,7 @@ public class ProfileUseCase implements IProfileServicePort {
         this.badgesPersistencePort = badgesPersistencePort;
         this.hobbyPersistencePort = hobbyPersistencePort;
         this.developerRolPersistencePort = developerRolPersistencePort;
+        this.staffRolPersistencePort = staffRolPersistencePort;
     }
 
     @Override
@@ -67,7 +67,11 @@ public class ProfileUseCase implements IProfileServicePort {
             LOGGER.error(MISSING_INFO + SOME_HOBBIES_NOT_FOUND, profile.getUserId(), hobbiesNotFound);
         }
 
-        if(developerRolPersistencePort.findByName(profile.getDeveloperRol()).isEmpty()) throw new DeveloperRolNotFoundException(DEVELOPER_ROL_NOT_FOUND);
+        if(developerRolPersistencePort.findByName(profile.getDeveloperRol()).isEmpty())
+            throw new DeveloperRolNotFoundException(DEVELOPER_ROL_NOT_FOUND);
+
+        if(staffRolPersistencePort.findByName(profile.getStaffRol()).isEmpty())
+            throw new StaffRolNotFoundException(STAFF_ROL_NOT_FOUND);
 
         profile.setBadges(badgeList);
         profile.setHobbies(hobbyList);
