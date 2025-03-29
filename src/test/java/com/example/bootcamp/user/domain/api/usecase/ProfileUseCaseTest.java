@@ -13,6 +13,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 import static com.example.bootcamp.user.domain.util.StudentConstants.ONE_TIME;
 import static com.example.bootcamp.user.domain.util.StudentMessage.USER_NOT_FOUND;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -38,6 +40,7 @@ class ProfileUseCaseTest {
     @BeforeEach
     void setUp() {
         profileValid = new Profile();
+        profileValid.setUserId(1L);
 
         executable = () -> profileUseCase.save(profileValid);
     }
@@ -54,7 +57,8 @@ class ProfileUseCaseTest {
 
     @Test
     void save_UserNotFound() {
-
+        when(studentPersistencePort.findById(anyLong())).thenReturn(Optional.empty());
+        when(staffPersistencePort.findById(anyLong())).thenReturn(Optional.empty());
         UserNotFoundException ex = assertThrows(UserNotFoundException.class, executable);
 
         assertEquals(USER_NOT_FOUND, ex.getMessage());
