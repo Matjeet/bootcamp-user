@@ -1,16 +1,16 @@
 package com.example.bootcamp.user.domain.model;
 
-public class Hobbie {
+public class Hobby {
 
     private Long id;
     private String name;
 
-    public Hobbie(Long id, String name) {
+    public Hobby(Long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Hobbie() {
+    public Hobby() {
     }
 
     public Long getId() {

@@ -11,10 +11,10 @@ public class Profile {
     private String developerRol;
     private List<Badge> badges;
     private Map<String, String> socialMedia;
-    private List<Hobbie> hobbies;
+    private List<Hobby> hobbies;
     private String staffRol;
 
-    public Profile(String id, Long userId, String description, String developerRol, List<Badge> badges, Map<String, String> socialMedia, List<Hobbie> hobbies, String staffRol) {
+    public Profile(String id, Long userId, String description, String developerRol, List<Badge> badges, Map<String, String> socialMedia, List<Hobby> hobbies, String staffRol) {
         this.id = id;
         this.userId = userId;
         this.description = description;
@@ -76,11 +76,11 @@ public class Profile {
         this.socialMedia = socialMedia;
     }
 
-    public List<Hobbie> getHobbies() {
+    public List<Hobby> getHobbies() {
         return hobbies;
     }
 
-    public void setHobbies(List<Hobbie> hobbies) {
+    public void setHobbies(List<Hobby> hobbies) {
         this.hobbies = hobbies;
     }
 

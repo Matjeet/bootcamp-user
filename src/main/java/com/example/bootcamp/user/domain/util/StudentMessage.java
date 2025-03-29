@@ -22,6 +22,7 @@ public class StudentMessage {
     public static final String EMAIL_REGISTERED_AS_A_STUDENT = "El correo que se intenta ingresar se encuentra registrado como un estudiante";
     public static final String USER_NOT_FOUND = "El usuario enviado en la petición no se encontró dentro de la base de datos";
     public static final String BADGES_NOT_FOUND = "Las insignias enviadas en la petición no se encontraron dentro de la base de datos";
+    public static final String HOBBIES_NOT_FOUND = "Los pasatiempos enviados en la petición no se encontraron dentro de la base de datos";
 
     // VALIDATION MESSAGE
     public static final String CITY_ID_IS_NULL_MESSAGE = "El id de la ciudad es requerido";
@@ -59,5 +60,6 @@ public class StudentMessage {
     // LOGGER
     public static final String MISSING_INFO = "MISSING_INFO: ";
     public static final String SOME_BADGES_NOT_FOUND = "El usuario {} intentó registrar la(s) insignia(s) {} pero no se encontraron en base de datos";
+    public static final String SOME_HOBBIES_NOT_FOUND = "El usuario {} intento registrar el/los pasatiempo(s) {} pero no se encontraron en base de datos";
 
 }

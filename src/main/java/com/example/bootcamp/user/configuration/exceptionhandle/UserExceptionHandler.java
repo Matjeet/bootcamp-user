@@ -120,4 +120,10 @@ public class UserExceptionHandler {
         responseException.put(MESSAGE_KEY, badgesNotFoundException.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
     }
+
+    @ExceptionHandler(HobbiesNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleHobbiesNotFoundException(HobbiesNotFoundException hobbiesNotFoundException){
+        responseException.put(MESSAGE_KEY, hobbiesNotFoundException.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
+    }
 }
