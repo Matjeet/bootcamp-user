@@ -7,5 +7,8 @@ import java.util.Optional;
 public interface IStaffPersistencePort {
 
     void save(Staff staff);
+
     Optional<Staff> findByEmail(String emailMember);
+
+    Optional<Staff> findById(Long memberId);
 }

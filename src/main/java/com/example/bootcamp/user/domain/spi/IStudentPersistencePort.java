@@ -6,4 +6,6 @@ import java.util.Optional;
 
 public interface IStudentPersistencePort {
     Optional<Student> findByEmailOrIdentification(String email, String identification);
+
+    Optional<Student> findById(Long studentId);
 }
