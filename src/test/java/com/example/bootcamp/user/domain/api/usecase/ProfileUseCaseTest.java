@@ -1,14 +1,11 @@
 package com.example.bootcamp.user.domain.api.usecase;
 
 import com.example.bootcamp.user.domain.exception.BadgesNotFoundException;
+import com.example.bootcamp.user.domain.exception.DeveloperRolNotFoundException;
+import com.example.bootcamp.user.domain.exception.HobbiesNotFoundException;
 import com.example.bootcamp.user.domain.exception.UserNotFoundException;
-import com.example.bootcamp.user.domain.model.Badge;
-import com.example.bootcamp.user.domain.model.Profile;
-import com.example.bootcamp.user.domain.model.Student;
-import com.example.bootcamp.user.domain.spi.IBadgesPersistencePort;
-import com.example.bootcamp.user.domain.spi.IProfilePersistencePort;
-import com.example.bootcamp.user.domain.spi.IStaffPersistencePort;
-import com.example.bootcamp.user.domain.spi.IStudentPersistencePort;
+import com.example.bootcamp.user.domain.model.*;
+import com.example.bootcamp.user.domain.spi.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,6 +20,7 @@ import org.springframework.boot.test.system.OutputCaptureExtension;
 import java.util.List;
 import java.util.Optional;
 
+import static com.example.bootcamp.user.domain.util.DeveloperRolEnum.BACK;
 import static com.example.bootcamp.user.domain.util.StudentConstants.ONE_TIME;
 import static com.example.bootcamp.user.domain.util.StudentMessage.*;
 import static com.example.bootcamp.user.domain.util.TestConstants.FIRST_ID;
@@ -42,11 +40,16 @@ class ProfileUseCaseTest {
     private IStaffPersistencePort staffPersistencePort;
     @Mock
     private IBadgesPersistencePort badgesPersistencePort;
+    @Mock
+    private IHobbyPersistencePort hobbyPersistencePort;
+    @Mock
+    private IDeveloperRolPersistencePort developerRolPersistencePort;
     @InjectMocks
     private ProfileUseCase profileUseCase;
 
     private Profile profileValid;
     private Badge badgeValid;
+    private Hobby hobbyValid;
 
     private Executable executable;
 
@@ -55,9 +58,14 @@ class ProfileUseCaseTest {
         badgeValid = new Badge();
         badgeValid.setId(FIRST_ID);
 
+        hobbyValid = new Hobby();
+        hobbyValid.setId(FIRST_ID);
+
         profileValid = new Profile();
         profileValid.setUserId(FIRST_ID);
         profileValid.setBadges(List.of(badgeValid, badgeValid));
+        profileValid.setHobbies(List.of(hobbyValid, hobbyValid));
+        profileValid.setDeveloperRol(BACK.name());
 
         executable = () -> profileUseCase.save(profileValid);
     }
@@ -66,6 +74,8 @@ class ProfileUseCaseTest {
     void save() {
         when(studentPersistencePort.findById(anyLong())).thenReturn(Optional.of(new Student()));
         when(badgesPersistencePort.findAllBadges(anyList())).thenReturn(List.of(badgeValid, badgeValid));
+        when(hobbyPersistencePort.findAllById(anyList())).thenReturn(List.of(hobbyValid, hobbyValid));
+        when(developerRolPersistencePort.findByName(anyString())).thenReturn(Optional.of(new DeveloperRol()));
         doNothing().when(profilePersistencePort).save(any(Profile.class));
 
         profileUseCase.save(profileValid);
@@ -94,9 +104,11 @@ class ProfileUseCaseTest {
     }
 
     @Test
-    void save_BadgesWithDifferentSize(CapturedOutput capturedOutput) {
+    void save_SomeBadgesNotFound(CapturedOutput capturedOutput) {
         when(studentPersistencePort.findById(anyLong())).thenReturn(Optional.of(new Student()));
         when(badgesPersistencePort.findAllBadges(anyList())).thenReturn(List.of(badgeValid));
+        when(hobbyPersistencePort.findAllById(anyList())).thenReturn(List.of(hobbyValid, hobbyValid));
+        when(developerRolPersistencePort.findByName(anyString())).thenReturn(Optional.of(new DeveloperRol()));
 
         String expectedLogMessage = MessageFormatter.arrayFormat(
                 MISSING_INFO + SOME_BADGES_NOT_FOUND,
@@ -106,5 +118,45 @@ class ProfileUseCaseTest {
         profileUseCase.save(profileValid);
 
         assertThat(capturedOutput.getOut()).contains(expectedLogMessage);
+    }
+
+    @Test
+    void save_HobbiesNotFound(){
+        when(studentPersistencePort.findById(anyLong())).thenReturn(Optional.of(new Student()));
+        when(badgesPersistencePort.findAllBadges(anyList())).thenReturn(List.of(badgeValid, badgeValid));
+        when(hobbyPersistencePort.findAllById(anyList())).thenReturn(List.of());
+
+        HobbiesNotFoundException ex = assertThrows(HobbiesNotFoundException.class, executable);
+
+        assertEquals(HOBBIES_NOT_FOUND, ex.getMessage());
+    }
+
+    @Test
+    void save_SomeHobbiesNotFound(CapturedOutput capturedOutput){
+        when(studentPersistencePort.findById(anyLong())).thenReturn(Optional.of(new Student()));
+        when(badgesPersistencePort.findAllBadges(anyList())).thenReturn(List.of(badgeValid, badgeValid));
+        when(hobbyPersistencePort.findAllById(anyList())).thenReturn(List.of(hobbyValid));
+        when(developerRolPersistencePort.findByName(anyString())).thenReturn(Optional.of(new DeveloperRol()));
+
+        String expectedLogMessage = MessageFormatter.arrayFormat(
+                MISSING_INFO + SOME_HOBBIES_NOT_FOUND,
+                new Object[]{FIRST_ID, List.of()}
+        ).getMessage();
+
+        profileUseCase.save(profileValid);
+
+        assertThat(capturedOutput.getOut()).contains(expectedLogMessage);
+    }
+
+    @Test
+    void save_DeveloperRolNotFound(){
+        when(studentPersistencePort.findById(anyLong())).thenReturn(Optional.of(new Student()));
+        when(badgesPersistencePort.findAllBadges(anyList())).thenReturn(List.of(badgeValid, badgeValid));
+        when(hobbyPersistencePort.findAllById(anyList())).thenReturn(List.of(hobbyValid, hobbyValid));
+        when(developerRolPersistencePort.findByName(anyString())).thenReturn(Optional.empty());
+
+        DeveloperRolNotFoundException ex = assertThrows(DeveloperRolNotFoundException.class, executable);
+
+        assertEquals(DEVELOPER_ROL_NOT_FOUND, ex.getMessage());
     }
 }
