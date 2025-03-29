@@ -9,12 +9,12 @@ public class Profile {
     private Long userId;
     private String description;
     private String developerRol;
-    private List<Long> badges;
+    private List<Badge> badges;
     private Map<String, String> socialMedia;
-    private List<Long> hobbies;
+    private List<Hobbie> hobbies;
     private String staffRol;
 
-    public Profile(String id, Long userId, String description, String developerRol, List<Long> badges, Map<String, String> socialMedia, List<Long> hobbies, String staffRol) {
+    public Profile(String id, Long userId, String description, String developerRol, List<Badge> badges, Map<String, String> socialMedia, List<Hobbie> hobbies, String staffRol) {
         this.id = id;
         this.userId = userId;
         this.description = description;
@@ -60,11 +60,11 @@ public class Profile {
         this.developerRol = developerRol;
     }
 
-    public List<Long> getBadges() {
+    public List<Badge> getBadges() {
         return badges;
     }
 
-    public void setBadges(List<Long> badges) {
+    public void setBadges(List<Badge> badges) {
         this.badges = badges;
     }
 
@@ -76,11 +76,11 @@ public class Profile {
         this.socialMedia = socialMedia;
     }
 
-    public List<Long> getHobbies() {
+    public List<Hobbie> getHobbies() {
         return hobbies;
     }
 
-    public void setHobbies(List<Long> hobbies) {
+    public void setHobbies(List<Hobbie> hobbies) {
         this.hobbies = hobbies;
     }
 

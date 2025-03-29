@@ -108,4 +108,16 @@ public class UserExceptionHandler {
         responseException.put(MESSAGE_KEY, httpMessageNotReadableException.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
     }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleUserNotFoundException(UserNotFoundException userNotFoundException){
+        responseException.put(MESSAGE_KEY, userNotFoundException.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
+    }
+
+    @ExceptionHandler(BadgesNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleBadgesNotFoundException(BadgesNotFoundException badgesNotFoundException){
+        responseException.put(MESSAGE_KEY, badgesNotFoundException.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
+    }
 }
