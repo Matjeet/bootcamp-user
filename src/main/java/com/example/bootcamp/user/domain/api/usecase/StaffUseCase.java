@@ -10,11 +10,11 @@ import com.example.bootcamp.user.domain.spi.IStaffPersistencePort;
 import com.example.bootcamp.user.domain.spi.IStaffRolPersistencePort;
 import com.example.bootcamp.user.domain.spi.IStudentPersistencePort;
 
+import java.util.Optional;
+
 import static com.example.bootcamp.user.domain.util.StudentConstants.EMPTY_STRING;
 import static com.example.bootcamp.user.domain.util.StudentMessage.*;
 import static com.example.bootcamp.user.domain.util.Validations.isValidEmail;
-import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 
 public class StaffUseCase implements IStaffServicePort {
 
@@ -40,19 +40,19 @@ public class StaffUseCase implements IStaffServicePort {
 
         if(!isValidEmail(staff.getEmail())) throw new InvalidEmailException(EMAIL_INVALID_MESSAGE);
 
-        if(nonNull(staffPersistencePort.findByEmail(staff.getEmail()))) throw new StaffMemberExistException(STAFF_MEMBER_EXIST);
+        if(staffPersistencePort.findByEmail(staff.getEmail()).isPresent()) throw new StaffMemberExistException(STAFF_MEMBER_EXIST);
 
-        if(nonNull(studentPersistencePort.findByEmailOrIdentification(staff.getEmail(), EMPTY_STRING)))
+        if(studentPersistencePort.findByEmailOrIdentification(staff.getEmail(), EMPTY_STRING).isPresent())
             throw new EmailRegisteredAsAStudentException(EMAIL_REGISTERED_AS_A_STUDENT);
 
-        DeveloperRol developerRol = developerRolPersistencePort.findByName(staff.getDeveloperRol().getName());
-        if(isNull(developerRol)) throw new DeveloperRolNotFoundException(DEVELOPER_ROL_NOT_FOUND);
+        Optional<DeveloperRol> developerRol = developerRolPersistencePort.findByName(staff.getDeveloperRol().getName());
+        if(developerRol.isEmpty()) throw new DeveloperRolNotFoundException(DEVELOPER_ROL_NOT_FOUND);
 
-        StaffRol staffRol = staffRolPersistencePort.findByName(staff.getStaffRol().getName());
-        if(isNull(staffRol)) throw new StaffRolNotFoundException(STAFF_ROL_NOT_FOUND);
+        Optional<StaffRol> staffRol = staffRolPersistencePort.findByName(staff.getStaffRol().getName());
+        if(staffRol.isEmpty()) throw new StaffRolNotFoundException(STAFF_ROL_NOT_FOUND);
 
-        staff.setDeveloperRol(developerRol);
-        staff.setStaffRol(staffRol);
+        staff.setDeveloperRol(developerRol.get());
+        staff.setStaffRol(staffRol.get());
 
         staffPersistencePort.save(staff);
     }

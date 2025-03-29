@@ -2,8 +2,10 @@ package com.example.bootcamp.user.domain.spi;
 
 import com.example.bootcamp.user.domain.model.Staff;
 
+import java.util.Optional;
+
 public interface IStaffPersistencePort {
 
     void save(Staff staff);
-    Staff findByEmail(String emailMember);
+    Optional<Staff> findByEmail(String emailMember);
 }

@@ -6,6 +6,8 @@ import com.example.bootcamp.user.ports.driven.mysql.mapper.IEducationLevelEntity
 import com.example.bootcamp.user.ports.driven.mysql.repository.IEducationLevelRepository;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 public class EducationLevelAdapter implements IEducationLevelPersistencePort {
 
@@ -13,7 +15,7 @@ public class EducationLevelAdapter implements IEducationLevelPersistencePort {
     private final IEducationLevelEntityMapper educationLevelEntityMapper;
 
     @Override
-    public EducationLevel findByName(String educationLevelName) {
-        return educationLevelEntityMapper.toModel(educationLevelRepository.findByName(educationLevelName).orElse(null));
+    public Optional<EducationLevel> findByName(String educationLevelName) {
+        return educationLevelRepository.findByName(educationLevelName).map(educationLevelEntityMapper::toModel);
     }
 }

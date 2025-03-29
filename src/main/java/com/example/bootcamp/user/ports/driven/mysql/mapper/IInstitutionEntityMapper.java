@@ -10,5 +10,5 @@ import org.mapstruct.ReportingPolicy;
         unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface IInstitutionEntityMapper {
 
-    Institution toOptionalModel(InstitutionEntity institutionEntity);
+    Institution toModel(InstitutionEntity institutionEntity);
 }

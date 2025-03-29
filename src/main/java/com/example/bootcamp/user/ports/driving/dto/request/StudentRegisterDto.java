@@ -51,7 +51,8 @@ public class StudentRegisterDto {
     @Positive(message = INSTITUTION_ID_IS_NOT_A_NUMBER_MESSAGE)
     private Long institutionId;
 
-    @NotBlank(message = INSTITUTION_DETAIL_IS_BLANK_MESSAGE)
+    @Size(min = 1, message = INSTITUTION_DETAIL_IS_BLANK_MESSAGE)
+    @Pattern(regexp = "^(?!\\s*$).+", message = INSTITUTION_DETAIL_IS_BLANK_MESSAGE)
     private String institutionDetail;
 
     @NotNull(message = DEGREE_NAME_IS_NULL_MESSAGE)

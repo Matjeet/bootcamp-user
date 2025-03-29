@@ -6,6 +6,8 @@ import com.example.bootcamp.user.ports.driven.mysql.mapper.IStaffRolEntityMapper
 import com.example.bootcamp.user.ports.driven.mysql.repository.IStaffRolRepository;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 public class StaffRolAdapter implements IStaffRolPersistencePort {
 
@@ -13,7 +15,7 @@ public class StaffRolAdapter implements IStaffRolPersistencePort {
     private final IStaffRolEntityMapper staffRolEntityMapper;
 
     @Override
-    public StaffRol findByName(String staffRolName) {
-        return staffRolEntityMapper.toModel(staffRolRepository.findByName(staffRolName).orElse(null));
+    public Optional<StaffRol> findByName(String staffRolName) {
+        return staffRolRepository.findByName(staffRolName).map(staffRolEntityMapper::toModel);
     }
 }
