@@ -67,6 +67,11 @@ public class ProfileUseCase implements IProfileServicePort {
             LOGGER.error(MISSING_INFO + SOME_HOBBIES_NOT_FOUND, profile.getUserId(), hobbiesNotFound);
         }
 
+        if(developerRolPersistencePort.findByName(profile.getDeveloperRol()).isEmpty()) throw new DeveloperRolNotFoundException(DEVELOPER_ROL_NOT_FOUND);
+
+        profile.setBadges(badgeList);
+        profile.setHobbies(hobbyList);
+
         this.profilePersistencePort.save(profile);
     }
 }
