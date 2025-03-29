@@ -49,4 +49,8 @@ public class Validations {
 
         return ChronoUnit.YEARS.between(birthdate, LocalDate.now()) >= LEGAL_AGE;
     }
+
+    public static boolean isValidDescription(String description){
+        return description.length() >= DESCRIPTION_MAX_LENGTH;
+    }
 }

@@ -126,4 +126,10 @@ public class UserExceptionHandler {
         responseException.put(MESSAGE_KEY, hobbiesNotFoundException.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
     }
+
+    @ExceptionHandler(DescriptionTooLongException.class)
+    public ResponseEntity<Map<String, String>> handleDescriptionTooLongException(DescriptionTooLongException descriptionTooLongException){
+        responseException.put(MESSAGE_KEY, descriptionTooLongException.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
+    }
 }

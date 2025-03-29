@@ -17,6 +17,7 @@ public class StudentConstants {
     public static final int IDENTIFICATION_MIN_LENGTH = 7;
     public static final int IDENTIFICATION_TYPE_MIN_LENGTH = 2;
     public static final int IDENTIFICATION_TYPE_MAX_LENGTH = 4;
+    public static final int DESCRIPTION_MAX_LENGTH = 500;
 
     // TEST
     public static final int ONE_TIME = 1;

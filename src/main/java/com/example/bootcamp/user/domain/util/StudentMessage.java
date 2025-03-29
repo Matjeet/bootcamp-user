@@ -56,6 +56,7 @@ public class StudentMessage {
     public static final String LOCATION_IS_NULL_MESSAGE = "La ubicación es requerida";
     public static final String STUDENT_IS_NOT_AN_ADULT = "El usuario no tiene la mayoría de edad";
     public static final String STAFF_ROLL_IS_NULL_MESSAGE = "El rol de miembro del equipo no puede ser nulo";
+    public static final String DESCRIPTION_TOO_LONG_MESSAGE = "La descripción del perfil es demasiado larga";
 
     // LOGGER
     public static final String MISSING_INFO = "MISSING_INFO: ";

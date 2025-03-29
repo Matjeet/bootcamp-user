@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 import static com.example.bootcamp.user.domain.util.StudentMessage.*;
+import static com.example.bootcamp.user.domain.util.Validations.isValidDescription;
 
 public class ProfileUseCase implements IProfileServicePort {
 
@@ -70,8 +71,13 @@ public class ProfileUseCase implements IProfileServicePort {
         if(developerRolPersistencePort.findByName(profile.getDeveloperRol()).isEmpty())
             throw new DeveloperRolNotFoundException(DEVELOPER_ROL_NOT_FOUND);
 
-        if(staffRolPersistencePort.findByName(profile.getStaffRol()).isEmpty())
+        if(!profile.getStaffRol().isEmpty() && staffRolPersistencePort.findByName(profile.getStaffRol()).isEmpty())
             throw new StaffRolNotFoundException(STAFF_ROL_NOT_FOUND);
+
+        if(!profile.getDescription().isEmpty() && isValidDescription(profile.getDescription()))
+            throw new DescriptionTooLongException(DESCRIPTION_TOO_LONG_MESSAGE);
+
+
 
         profile.setBadges(badgeList);
         profile.setHobbies(hobbyList);
