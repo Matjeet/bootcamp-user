@@ -14,10 +14,14 @@ import org.slf4j.helpers.MessageFormatter;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static com.example.bootcamp.user.domain.util.DeveloperRolEnum.BACK;
+import static com.example.bootcamp.user.domain.util.SocialMediaEnum.FACEBOOK;
+import static com.example.bootcamp.user.domain.util.SocialMediaEnum.INSTAGRAM;
 import static com.example.bootcamp.user.domain.util.StaffRolEnum.ADMIN;
 import static com.example.bootcamp.user.domain.util.StudentConstants.ONE_TIME;
 import static com.example.bootcamp.user.domain.util.StudentMessage.*;
@@ -51,6 +55,7 @@ class ProfileUseCaseTest {
     private Profile profileValid;
     private Badge badgeValid;
     private Hobby hobbyValid;
+    private Map<String, String> socialMediaValid;
 
     private Executable executable;
 
@@ -62,6 +67,10 @@ class ProfileUseCaseTest {
         hobbyValid = new Hobby();
         hobbyValid.setId(FIRST_ID);
 
+        socialMediaValid = new HashMap<>();
+        socialMediaValid.put(INSTAGRAM.name(), "https://instagram.com");
+        socialMediaValid.put(FACEBOOK.name(), "https://facebook.com");
+
         profileValid = new Profile();
         profileValid.setUserId(FIRST_ID);
         profileValid.setBadges(List.of(badgeValid, badgeValid));
@@ -69,6 +78,7 @@ class ProfileUseCaseTest {
         profileValid.setDeveloperRol(BACK.name());
         profileValid.setStaffRol(ADMIN.name());
         profileValid.setDescription("Test Description");
+        profileValid.setSocialMedia(socialMediaValid);
 
         executable = () -> profileUseCase.save(profileValid);
     }
@@ -192,5 +202,35 @@ class ProfileUseCaseTest {
         DescriptionTooLongException ex = assertThrows(DescriptionTooLongException.class, executable);
 
         assertEquals(DESCRIPTION_TOO_LONG_MESSAGE, ex.getMessage());
+    }
+
+    @Test
+    void save_DescriptionNull(){
+        profileValid.setDescription(null);
+
+        when(studentPersistencePort.findById(anyLong())).thenReturn(Optional.of(new Student()));
+        when(badgesPersistencePort.findAllBadges(anyList())).thenReturn(List.of(badgeValid, badgeValid));
+        when(hobbyPersistencePort.findAllById(anyList())).thenReturn(List.of(hobbyValid, hobbyValid));
+        when(developerRolPersistencePort.findByName(anyString())).thenReturn(Optional.of(new DeveloperRol()));
+        when(staffRolPersistencePort.findByName(anyString())).thenReturn(Optional.of(new StaffRol()));
+
+        DescriptionTooLongException ex = assertThrows(DescriptionTooLongException.class, executable);
+
+        assertEquals(DESCRIPTION_TOO_LONG_MESSAGE, ex.getMessage());
+    }
+
+    @Test
+    void save_InvalidUrl(){
+        profileValid.getSocialMedia().put(INSTAGRAM.name(), "insta.com");
+
+        when(studentPersistencePort.findById(anyLong())).thenReturn(Optional.of(new Student()));
+        when(badgesPersistencePort.findAllBadges(anyList())).thenReturn(List.of(badgeValid, badgeValid));
+        when(hobbyPersistencePort.findAllById(anyList())).thenReturn(List.of(hobbyValid, hobbyValid));
+        when(developerRolPersistencePort.findByName(anyString())).thenReturn(Optional.of(new DeveloperRol()));
+        when(staffRolPersistencePort.findByName(anyString())).thenReturn(Optional.of(new StaffRol()));
+
+        InvalidUrlException ex = assertThrows(InvalidUrlException.class, executable);
+
+        assertEquals(URL_INVALID_MESSAGE, ex.getMessage());
     }
 }
