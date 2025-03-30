@@ -57,6 +57,7 @@ public class StudentMessage {
     public static final String STUDENT_IS_NOT_AN_ADULT = "El usuario no tiene la mayoría de edad";
     public static final String STAFF_ROLL_IS_NULL_MESSAGE = "El rol de miembro del equipo no puede ser nulo";
     public static final String DESCRIPTION_TOO_LONG_MESSAGE = "La descripción del perfil es demasiado larga";
+    public static final String URL_INVALID_MESSAGE = "Una de las URL proporcionadas no cumple con la estructura requerida";
 
     // LOGGER
     public static final String MISSING_INFO = "MISSING_INFO: ";

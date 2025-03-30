@@ -51,6 +51,16 @@ public class Validations {
     }
 
     public static boolean isValidDescription(String description){
-        return description.length() >= DESCRIPTION_MAX_LENGTH;
+        if(isNull(description)) return false;
+
+        return description.length() <= DESCRIPTION_MAX_LENGTH;
+    }
+
+    public static boolean isValidUrl(String url){
+        if(isNull(url)) return false;
+
+        Pattern emailPattern =  Pattern.compile(URL_REGEX);
+        Matcher matcher = emailPattern.matcher(url);
+        return matcher.matches();
     }
 }

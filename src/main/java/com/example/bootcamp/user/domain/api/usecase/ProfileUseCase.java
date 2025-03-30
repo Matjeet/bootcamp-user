@@ -13,6 +13,7 @@ import java.util.List;
 
 import static com.example.bootcamp.user.domain.util.StudentMessage.*;
 import static com.example.bootcamp.user.domain.util.Validations.isValidDescription;
+import static com.example.bootcamp.user.domain.util.Validations.isValidUrl;
 
 public class ProfileUseCase implements IProfileServicePort {
 
@@ -74,10 +75,12 @@ public class ProfileUseCase implements IProfileServicePort {
         if(!profile.getStaffRol().isEmpty() && staffRolPersistencePort.findByName(profile.getStaffRol()).isEmpty())
             throw new StaffRolNotFoundException(STAFF_ROL_NOT_FOUND);
 
-        if(!profile.getDescription().isEmpty() && isValidDescription(profile.getDescription()))
+        if(!isValidDescription(profile.getDescription()))
             throw new DescriptionTooLongException(DESCRIPTION_TOO_LONG_MESSAGE);
 
-
+        profile.getSocialMedia().forEach((media, url) -> {
+            if(!isValidUrl(url)) throw new InvalidUrlException(URL_INVALID_MESSAGE);
+        });
 
         profile.setBadges(badgeList);
         profile.setHobbies(hobbyList);

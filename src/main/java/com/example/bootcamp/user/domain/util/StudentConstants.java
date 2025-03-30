@@ -12,6 +12,7 @@ public class StudentConstants {
     public static final String CELLPHONE_REGEX = "^\\+\\d{12,13}$";
     public static final String IDENTIFICATION_REGEX = "^\\d+$";
     public static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+    public static final String URL_REGEX = "^(https?|ftp):\\/\\/[^\\s\\/$.?#].[^\\s]*$";
 
     // VALIDATION
     public static final int IDENTIFICATION_MIN_LENGTH = 7;

@@ -132,4 +132,10 @@ public class UserExceptionHandler {
         responseException.put(MESSAGE_KEY, descriptionTooLongException.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
     }
+
+    @ExceptionHandler(InvalidUrlException.class)
+    public ResponseEntity<Map<String, String>> handleInvalidUrlException(InvalidUrlException invalidUrlException){
+        responseException.put(MESSAGE_KEY, invalidUrlException.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
+    }
 }
