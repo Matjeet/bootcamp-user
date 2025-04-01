@@ -23,4 +23,9 @@ public class StaffAdapter implements IStaffPersistencePort {
     public Optional<Staff> findByEmail(String emailMember) {
         return staffEntityMapper.toOptionalModel(staffRepository.findByEmail(emailMember));
     }
+
+    @Override
+    public Optional<Staff> findById(Long memberId) {
+        return staffRepository.findById(memberId).map(staffEntityMapper::toModel);
+    }
 }
