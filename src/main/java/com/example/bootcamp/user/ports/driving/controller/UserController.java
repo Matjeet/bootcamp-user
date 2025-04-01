@@ -1,11 +1,14 @@
 package com.example.bootcamp.user.ports.driving.controller;
 
+import com.example.bootcamp.user.domain.api.IProfileServicePort;
 import com.example.bootcamp.user.domain.api.IStaffServicePort;
 import com.example.bootcamp.user.domain.api.IStudentServicePort;
 import com.example.bootcamp.user.domain.model.Student;
 import com.example.bootcamp.user.domain.model.StudentInstitution;
+import com.example.bootcamp.user.ports.driving.dto.request.CreateProfileDto;
 import com.example.bootcamp.user.ports.driving.dto.request.StaffRegisterDto;
 import com.example.bootcamp.user.ports.driving.dto.request.StudentRegisterDto;
+import com.example.bootcamp.user.ports.driving.mapper.IProfileMapper;
 import com.example.bootcamp.user.ports.driving.mapper.IStaffMapper;
 import com.example.bootcamp.user.ports.driving.mapper.IStudentMapper;
 import jakarta.validation.Valid;
@@ -31,6 +34,8 @@ public class UserController {
     private final IStudentServicePort studentServicePort;
     private final IStaffMapper staffMapper;
     private final IStaffServicePort staffServicePort;
+    private final IProfileServicePort profileServicePort;
+    private final IProfileMapper profileMapper;
 
     private final Map<String, String> simpleResponse = new HashMap<>();
 
@@ -55,7 +60,9 @@ public class UserController {
     }
 
     @PostMapping(value = "/profile")
-    public ResponseEntity<Map<String, String>> saveProfile(){
+    public ResponseEntity<Map<String, String>> saveProfile(@Valid @RequestBody CreateProfileDto createProfileDto){
+        profileServicePort.save(profileMapper.toModel(createProfileDto));
+
         simpleResponse.put(MESSAGE_KEY, CREATED_PROFILE_MESSAGE);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(simpleResponse);

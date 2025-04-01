@@ -6,7 +6,7 @@ import java.util.Map;
 public class Profile {
 
     private String id;
-    private Long userId;
+    private String userEmail;
     private String description;
     private String developerRol;
     private List<Badge> badges;
@@ -14,9 +14,9 @@ public class Profile {
     private List<Hobby> hobbies;
     private String staffRol;
 
-    public Profile(String id, Long userId, String description, String developerRol, List<Badge> badges, Map<String, String> socialMedia, List<Hobby> hobbies, String staffRol) {
+    public Profile(String id, String userEmail, String description, String developerRol, List<Badge> badges, Map<String, String> socialMedia, List<Hobby> hobbies, String staffRol) {
         this.id = id;
-        this.userId = userId;
+        this.userEmail = userEmail;
         this.description = description;
         this.developerRol = developerRol;
         this.badges = badges;
@@ -36,12 +36,12 @@ public class Profile {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public String getUserEmail() {
+        return userEmail;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     public String getDescription() {

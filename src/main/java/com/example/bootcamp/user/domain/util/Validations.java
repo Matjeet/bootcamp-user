@@ -37,7 +37,7 @@ public class Validations {
             return false;
         }
 
-        Pattern emailPattern =  Pattern.compile(IDENTIFICATION_REGEX);
+        Pattern emailPattern =  Pattern.compile(ONLY_NUMBERS_REGEX);
         Matcher matcher = emailPattern.matcher(identification);
         return matcher.matches();
     }
