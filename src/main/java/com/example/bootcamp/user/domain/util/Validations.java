@@ -37,7 +37,7 @@ public class Validations {
             return false;
         }
 
-        Pattern emailPattern =  Pattern.compile(IDENTIFICATION_REGEX);
+        Pattern emailPattern =  Pattern.compile(ONLY_NUMBERS_REGEX);
         Matcher matcher = emailPattern.matcher(identification);
         return matcher.matches();
     }
@@ -48,5 +48,19 @@ public class Validations {
         }
 
         return ChronoUnit.YEARS.between(birthdate, LocalDate.now()) >= LEGAL_AGE;
+    }
+
+    public static boolean isValidDescription(String description){
+        if(isNull(description)) return false;
+
+        return description.length() <= DESCRIPTION_MAX_LENGTH;
+    }
+
+    public static boolean isValidUrl(String url){
+        if(isNull(url)) return false;
+
+        Pattern emailPattern =  Pattern.compile(URL_REGEX);
+        Matcher matcher = emailPattern.matcher(url);
+        return matcher.matches();
     }
 }

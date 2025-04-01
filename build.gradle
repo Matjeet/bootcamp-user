@@ -33,6 +33,7 @@ ext {
 	mapStructVersion = "1.5.5.Final"
 	mockitoVersion = "5.12.0"
 	lombokMapstructBindingVersion = "0.2.0"
+	dynamoDbVersion = "2.31.11"
 }
 
 dependencies {
@@ -40,6 +41,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation "org.mapstruct:mapstruct:${mapStructVersion}"
+	implementation "software.amazon.awssdk:dynamodb:${dynamoDbVersion}"
+	implementation "software.amazon.awssdk:dynamodb-enhanced:${dynamoDbVersion}"
 	annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
 
 

@@ -7,6 +7,7 @@ public class StudentMessage {
     // RESPONSE MESSAGE
     public static final String CREATED_STUDENT_MESSAGE = "El estudiante se ha creado correctamente dentro de la base de datos";
     public static final String CREATED_STAFF_MESSAGE = "El miembro del equipo se ha creado correctamente en la base de datos";
+    public static final String CREATED_PROFILE_MESSAGE = "El perfil del usuario ha sido creado exitosamente";
 
     // EXCEPTION MESSAGE
     public static final String MESSAGE_KEY = "response";
@@ -19,6 +20,9 @@ public class StudentMessage {
     public static final String STAFF_MEMBER_EXIST = "El miembro del equipo ya se encuentra creado en base de datos";
     public static final String STAFF_ROL_NOT_FOUND = "El rol de equipo no se encuentra en nuestra base de datos";
     public static final String EMAIL_REGISTERED_AS_A_STUDENT = "El correo que se intenta ingresar se encuentra registrado como un estudiante";
+    public static final String USER_NOT_FOUND = "El usuario enviado en la petición no se encontró dentro de la base de datos";
+    public static final String BADGES_NOT_FOUND = "Las insignias enviadas en la petición no se encontraron dentro de la base de datos";
+    public static final String HOBBIES_NOT_FOUND = "Los pasatiempos enviados en la petición no se encontraron dentro de la base de datos";
 
     // VALIDATION MESSAGE
     public static final String CITY_ID_IS_NULL_MESSAGE = "El id de la ciudad es requerido";
@@ -52,5 +56,14 @@ public class StudentMessage {
     public static final String LOCATION_IS_NULL_MESSAGE = "La ubicación es requerida";
     public static final String STUDENT_IS_NOT_AN_ADULT = "El usuario no tiene la mayoría de edad";
     public static final String STAFF_ROLL_IS_NULL_MESSAGE = "El rol de miembro del equipo no puede ser nulo";
+    public static final String DESCRIPTION_TOO_LONG_MESSAGE = "La descripción del perfil es demasiado larga";
+    public static final String URL_INVALID_MESSAGE = "Una de las URL proporcionadas no cumple con la estructura requerida";
+    public static final String USER_ID_IS_NULL_MESSAGE = "El id del usuario no puede ser nula";
+
+
+    // LOGGER
+    public static final String MISSING_INFO = "MISSING_INFO: ";
+    public static final String SOME_BADGES_NOT_FOUND = "El usuario {} intentó registrar la(s) insignia(s) {} pero no se encontraron en base de datos";
+    public static final String SOME_HOBBIES_NOT_FOUND = "El usuario {} intento registrar el/los pasatiempo(s) {} pero no se encontraron en base de datos";
 
 }

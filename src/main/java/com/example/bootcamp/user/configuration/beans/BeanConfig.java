@@ -1,10 +1,15 @@
 package com.example.bootcamp.user.configuration.beans;
 
+import com.example.bootcamp.user.domain.api.IProfileServicePort;
 import com.example.bootcamp.user.domain.api.IStaffServicePort;
 import com.example.bootcamp.user.domain.api.IStudentServicePort;
+import com.example.bootcamp.user.domain.api.usecase.ProfileUseCase;
 import com.example.bootcamp.user.domain.api.usecase.StaffUseCase;
 import com.example.bootcamp.user.domain.api.usecase.StudentUseCase;
 import com.example.bootcamp.user.domain.spi.*;
+import com.example.bootcamp.user.ports.driven.dynamodb.adapter.ProfileAdapter;
+import com.example.bootcamp.user.ports.driven.dynamodb.mapper.IProfileEntityMapper;
+import com.example.bootcamp.user.ports.driven.dynamodb.repository.IProfileRepository;
 import com.example.bootcamp.user.ports.driven.mysql.adapter.*;
 import com.example.bootcamp.user.ports.driven.mysql.mapper.*;
 import com.example.bootcamp.user.ports.driven.mysql.repository.*;
@@ -34,6 +39,12 @@ public class BeanConfig {
     private final IStaffEntityMapper staffEntityMapper;
     private final IStaffRolRepository staffRolRepository;
     private final IStaffRolEntityMapper staffRolEntityMapper;
+    private final IProfileRepository profileRepository;
+    private final IProfileEntityMapper profileEntityMapper;
+    private final IBadgeRepository badgeRepository;
+    private final IBadgeEntityMapper badgeEntityMapper;
+    private final IHobbyRepository hobbyRepository;
+    private final IHobbyEntityMapper hobbyEntityMapper;
 
     @Bean
     public IStudentServicePort studentServicePort(){
@@ -55,6 +66,19 @@ public class BeanConfig {
                 developerRolPersistencePort(),
                 staffRolPersistencePort(),
                 studentPersistencePort()
+        );
+    }
+
+    @Bean
+    public IProfileServicePort profileServicePort(){
+        return new ProfileUseCase(
+                profilePersistencePort(),
+                studentPersistencePort(),
+                staffPersistencePort(),
+                badgesPersistencePort(),
+                hobbyPersistencePort(),
+                developerRolPersistencePort(),
+                staffRolPersistencePort()
         );
     }
 
@@ -130,4 +154,27 @@ public class BeanConfig {
         );
     }
 
+    @Bean
+    public IProfilePersistencePort profilePersistencePort(){
+        return new ProfileAdapter(
+              profileRepository,
+              profileEntityMapper
+        );
+    }
+
+    @Bean
+    public IBadgesPersistencePort badgesPersistencePort(){
+        return new BadgeAdapter(
+                badgeRepository,
+                badgeEntityMapper
+        );
+    }
+
+    @Bean
+    public IHobbyPersistencePort hobbyPersistencePort(){
+        return new HobbyAdapter(
+                hobbyRepository,
+                hobbyEntityMapper
+        );
+    }
 }

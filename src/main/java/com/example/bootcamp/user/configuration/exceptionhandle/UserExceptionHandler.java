@@ -108,4 +108,34 @@ public class UserExceptionHandler {
         responseException.put(MESSAGE_KEY, httpMessageNotReadableException.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
     }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleUserNotFoundException(UserNotFoundException userNotFoundException){
+        responseException.put(MESSAGE_KEY, userNotFoundException.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
+    }
+
+    @ExceptionHandler(BadgesNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleBadgesNotFoundException(BadgesNotFoundException badgesNotFoundException){
+        responseException.put(MESSAGE_KEY, badgesNotFoundException.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
+    }
+
+    @ExceptionHandler(HobbiesNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleHobbiesNotFoundException(HobbiesNotFoundException hobbiesNotFoundException){
+        responseException.put(MESSAGE_KEY, hobbiesNotFoundException.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
+    }
+
+    @ExceptionHandler(DescriptionTooLongException.class)
+    public ResponseEntity<Map<String, String>> handleDescriptionTooLongException(DescriptionTooLongException descriptionTooLongException){
+        responseException.put(MESSAGE_KEY, descriptionTooLongException.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
+    }
+
+    @ExceptionHandler(InvalidUrlException.class)
+    public ResponseEntity<Map<String, String>> handleInvalidUrlException(InvalidUrlException invalidUrlException){
+        responseException.put(MESSAGE_KEY, invalidUrlException.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
+    }
 }

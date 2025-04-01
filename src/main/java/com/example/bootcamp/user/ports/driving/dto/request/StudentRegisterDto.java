@@ -33,7 +33,7 @@ public class StudentRegisterDto {
 
     @NotNull(message = IDENTIFICATION_IS_NULL_MESSAGE)
     @Min(value = IDENTIFICATION_MIN_LENGTH, message = IDENTIFICATION_TOO_SHORT_MESSAGE)
-    @Pattern(regexp = IDENTIFICATION_REGEX, message = IDENTIFICATION_INVALID_MESSAGE)
+    @Pattern(regexp = ONLY_NUMBERS_REGEX, message = IDENTIFICATION_INVALID_MESSAGE)
     private String identification;
 
     @NotNull(message = IDENTIFICATION_TYPE_IS_NULL_MESSAGE)
@@ -51,8 +51,8 @@ public class StudentRegisterDto {
     @Positive(message = INSTITUTION_ID_IS_NOT_A_NUMBER_MESSAGE)
     private Long institutionId;
 
-    @Size(min = 1, message = INSTITUTION_DETAIL_IS_BLANK_MESSAGE)
-    @Pattern(regexp = "^(?!\\s*$).+", message = INSTITUTION_DETAIL_IS_BLANK_MESSAGE)
+    @Size(min = INSTITUTION_DETAILS_MIN_LENGTH, message = INSTITUTION_DETAIL_IS_BLANK_MESSAGE)
+    @Pattern(regexp = NOT_ONLY_BLANK_SPACE_REGEX, message = INSTITUTION_DETAIL_IS_BLANK_MESSAGE)
     private String institutionDetail;
 
     @NotNull(message = DEGREE_NAME_IS_NULL_MESSAGE)

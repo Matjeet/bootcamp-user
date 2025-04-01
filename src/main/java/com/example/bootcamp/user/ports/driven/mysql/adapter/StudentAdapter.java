@@ -18,4 +18,9 @@ public class StudentAdapter implements IStudentPersistencePort {
     public Optional<Student> findByEmailOrIdentification(String email, String identification){
        return studentRepository.findByEmailOrIdentification(email, identification).map(studentEntityMapper::toModel);
     }
+
+    @Override
+    public Optional<Student> findById(Long studentId) {
+        return studentRepository.findById(studentId).map(studentEntityMapper::toModel);
+    }
 }
