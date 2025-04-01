@@ -17,7 +17,7 @@ public class HobbyAdapter implements IHobbyPersistencePort {
 
     @Override
     public List<Hobby> findAllById(List<Hobby> hobbiesIdList) {
-        List<HobbyEntity> hobbyEntityList = hobbyRepository.findAllById(hobbyEntityMapper.toListEntity(hobbiesIdList));
+        List<HobbyEntity> hobbyEntityList = hobbyRepository.findAllById(hobbyEntityMapper.toLongList(hobbiesIdList));
         return hobbyEntityMapper.toListModel(hobbyEntityList);
     }
 }

@@ -7,12 +7,18 @@ import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 
+import static java.util.Objects.isNull;
+
 @Mapper(componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface IBadgeEntityMapper {
 
-    List<BadgeEntity> toEntityList(List<Badge> badgeList);
+    default List<Long> toLongList(List<Badge> badgeList){
+        return isNull(badgeList) ? null : badgeList.stream()
+                .map(Badge::getId)
+                .toList();
+    }
 
     List<Badge> toModelList(List<BadgeEntity> badgeEntityList);
 }

@@ -17,7 +17,7 @@ public class BadgeAdapter implements IBadgesPersistencePort {
 
     @Override
     public List<Badge> findAllBadges(List<Badge> listBadgesId) {
-        List<BadgeEntity> badgeEntityList = badgeRepository.findAllById(badgeEntityMapper.toEntityList(listBadgesId));
+        List<BadgeEntity> badgeEntityList = badgeRepository.findAllById(badgeEntityMapper.toLongList(listBadgesId));
         return badgeEntityMapper.toModelList(badgeEntityList);
     }
 }

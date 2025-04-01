@@ -7,12 +7,18 @@ import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 
+import static java.util.Objects.isNull;
+
 @Mapper(componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface IHobbyEntityMapper {
 
-    List<HobbyEntity> toListEntity(List<Hobby> hobbyList);
+    default List<Long> toLongList(List<Hobby> hobbyList){
+        return isNull(hobbyList) ? null : hobbyList.stream()
+                .map(Hobby::getId)
+                .toList();
+    }
 
     List<Hobby> toListModel(List<HobbyEntity> hobbyEntityList);
 }

@@ -48,6 +48,10 @@ public class ProfileUseCase implements IProfileServicePort {
         this.staffRolPersistencePort = staffRolPersistencePort;
     }
 
+    /**
+     * TODO: validar que el perfil no exista
+     * TODO: validar que si la persona es un estudiante no se envíe un StaffRol
+     */
     @Override
     public void save(Profile profile) {
 
@@ -68,7 +72,10 @@ public class ProfileUseCase implements IProfileServicePort {
                 .orElse(null);
 
         if(nonNull(badgeList) && badgeList.size() != profile.getBadges().size()) {
-            List<Badge> badgesNotFound = profile.getBadges().stream().filter(badge -> !badgeList.contains(badge)).toList();
+            List<Long> badgeListId = badgeList.stream().map(Badge::getId).toList();
+            List<Long> badgesNotFound = profile.getBadges().stream()
+                    .map(Badge::getId)
+                    .filter(badge -> !badgeListId.contains(badge)).toList();
             LOGGER.error(MISSING_INFO + SOME_BADGES_NOT_FOUND, profile.getUserEmail(), badgesNotFound);
         }
 
@@ -81,7 +88,10 @@ public class ProfileUseCase implements IProfileServicePort {
                         .orElse(null);
 
         if(nonNull(hobbyList) && hobbyList.size() != profile.getHobbies().size()){
-            List<Hobby> hobbiesNotFound = profile.getHobbies().stream().filter(hobby -> !hobbyList.contains(hobby)).toList();
+            List<Long> hobbiesListId = hobbyList.stream().map(Hobby::getId).toList();
+            List<Long> hobbiesNotFound = profile.getHobbies().stream()
+                    .map(Hobby::getId)
+                    .filter(hobby -> !hobbiesListId.contains(hobby)).toList();
             LOGGER.error(MISSING_INFO + SOME_HOBBIES_NOT_FOUND, profile.getUserEmail(), hobbiesNotFound);
         }
 
