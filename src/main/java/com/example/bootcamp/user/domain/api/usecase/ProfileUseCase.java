@@ -51,6 +51,7 @@ public class ProfileUseCase implements IProfileServicePort {
     /**
      * TODO: validar que el perfil no exista
      * TODO: validar que si la persona es un estudiante no se envíe un StaffRol
+     * TODO: dejar de usar ID en los HOBBIES y los BADGES. Usar los nombres directamente.
      */
     @Override
     public void save(Profile profile) {
@@ -120,5 +121,10 @@ public class ProfileUseCase implements IProfileServicePort {
         profile.setHobbies(hobbyList);
 
         this.profilePersistencePort.save(profile);
+    }
+
+    @Override
+    public Profile getByEmail(String email) {
+        return this.profilePersistencePort.getByEmail(email).orElseGet(Profile::new);
     }
 }
