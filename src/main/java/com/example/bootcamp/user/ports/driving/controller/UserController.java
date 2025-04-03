@@ -82,7 +82,13 @@ public class UserController {
             ){
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(profileMapper.toProfileResponse(
-                        profileServicePort.updateEmail(email, profileMapper.fromUpdateToModel(updateProfileDto))
+                        profileServicePort.update(email, profileMapper.fromUpdateToModel(updateProfileDto))
                 ));
+    }
+
+    @DeleteMapping(value = "/profile")
+    public ResponseEntity<Void> deleteProfile(@RequestParam(value = "email") String email){
+        profileServicePort.delete(email);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

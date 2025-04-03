@@ -100,7 +100,7 @@ public class ProfileUseCase implements IProfileServicePort {
     }
 
     @Override
-    public Profile updateEmail(String email, Profile profile) {
+    public Profile update(String email, Profile profile) {
         Profile profileStored = profilePersistencePort.getByEmail(email)
                 .orElseThrow(() -> new ProfileNotFoundException(PROFILE_NOT_FOUND));
 
@@ -115,6 +115,17 @@ public class ProfileUseCase implements IProfileServicePort {
 
         return profilePersistencePort.save(profileToUpdate)
                 .orElseThrow(() -> new ProfileNotUpdateException(PROFILE_NOT_UPDATE));
+    }
+
+    @Override
+    public void delete(String email) {
+        Optional<Profile> profile = this.profilePersistencePort.getByEmail(email);
+
+        if(profile.isPresent() && isNull(profile.get().getUserEmail())){
+            throw new UserNotFoundException(USER_NOT_FOUND);
+        }
+
+        this.profilePersistencePort.delete(email);
     }
 
     private List<Badge> validateBadges(List<Badge> badgesList, String userEmail){

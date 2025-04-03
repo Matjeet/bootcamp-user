@@ -24,4 +24,9 @@ public class ProfileAdapter implements IProfilePersistencePort {
     public Optional<Profile> getByEmail(String email) {
         return profileEntityMapper.toOptionalModel(profileRepository.findByEmail(email).orElseGet(ProfileEntity::new));
     }
+
+    @Override
+    public void delete(String email) {
+        profileRepository.delete(email);
+    }
 }

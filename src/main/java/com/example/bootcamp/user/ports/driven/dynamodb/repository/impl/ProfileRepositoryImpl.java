@@ -33,4 +33,10 @@ public class ProfileRepositoryImpl implements IProfileRepository {
         Key key = Key.builder().partitionValue(email).build();
         return Optional.ofNullable(profileTable.getItem(key));
     }
+
+    @Override
+    public void delete(String email) {
+        Key key = Key.builder().partitionValue(email).build();
+        profileTable.deleteItem(key);
+    }
 }
