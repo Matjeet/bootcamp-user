@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface IProfilePersistencePort {
 
-    void save(Profile profile);
+    Optional<Profile> save(Profile profile);
 
     Optional<Profile> getByEmail(String email);
 }

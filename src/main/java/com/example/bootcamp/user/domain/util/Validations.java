@@ -1,5 +1,7 @@
 package com.example.bootcamp.user.domain.util;
 
+import com.example.bootcamp.user.domain.model.Profile;
+
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.regex.Matcher;
@@ -7,6 +9,7 @@ import java.util.regex.Pattern;
 
 import static com.example.bootcamp.user.domain.util.StudentConstants.*;
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 public class Validations {
 
@@ -62,5 +65,25 @@ public class Validations {
         Pattern emailPattern =  Pattern.compile(URL_REGEX);
         Matcher matcher = emailPattern.matcher(url);
         return matcher.matches();
+    }
+
+    public static Profile updateProfileMapping(Profile profileFromDb, Profile profileFromRequest){
+        if(nonNull(profileFromRequest.getDescription())){
+            profileFromDb.setDescription(profileFromRequest.getDescription());
+        }
+        if(nonNull(profileFromRequest.getBadges())){
+            profileFromDb.setBadges(profileFromRequest.getBadges());
+        }
+        if(nonNull(profileFromRequest.getHobbies())){
+            profileFromDb.setHobbies(profileFromRequest.getHobbies());
+        }
+        if(nonNull(profileFromRequest.getSocialMedia())){
+            profileFromDb.setSocialMedia(profileFromRequest.getSocialMedia());
+        }
+        if(nonNull(profileFromRequest.getStaffRol())){
+            profileFromDb.setStaffRol(profileFromRequest.getStaffRol());
+        }
+
+        return profileFromDb;
     }
 }

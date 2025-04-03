@@ -16,8 +16,8 @@ public class ProfileAdapter implements IProfilePersistencePort {
     private final IProfileEntityMapper profileEntityMapper;
 
     @Override
-    public void save(Profile profile) {
-        profileRepository.save(profileEntityMapper.toEntity(profile));
+    public Optional<Profile> save(Profile profile) {
+        return profileEntityMapper.toOptionalModel(profileRepository.save(profileEntityMapper.toEntity(profile)));
     }
 
     @Override

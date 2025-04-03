@@ -3,11 +3,13 @@ package com.example.bootcamp.user.ports.driving.controller;
 import com.example.bootcamp.user.domain.api.IProfileServicePort;
 import com.example.bootcamp.user.domain.api.IStaffServicePort;
 import com.example.bootcamp.user.domain.api.IStudentServicePort;
+import com.example.bootcamp.user.domain.model.Profile;
 import com.example.bootcamp.user.domain.model.Student;
 import com.example.bootcamp.user.domain.model.StudentInstitution;
 import com.example.bootcamp.user.ports.driving.dto.request.CreateProfileDto;
 import com.example.bootcamp.user.ports.driving.dto.request.StaffRegisterDto;
 import com.example.bootcamp.user.ports.driving.dto.request.StudentRegisterDto;
+import com.example.bootcamp.user.ports.driving.dto.request.UpdateProfileDto;
 import com.example.bootcamp.user.ports.driving.dto.response.ProfileResponseDto;
 import com.example.bootcamp.user.ports.driving.mapper.IProfileMapper;
 import com.example.bootcamp.user.ports.driving.mapper.IStaffMapper;
@@ -59,7 +61,8 @@ public class UserController {
 
     @PostMapping(value = "/profile")
     public ResponseEntity<Map<String, String>> saveProfile(@Valid @RequestBody CreateProfileDto createProfileDto){
-        profileServicePort.save(profileMapper.toModel(createProfileDto));
+        Profile profile = profileMapper.fromCreateToModel(createProfileDto);
+        profileServicePort.save(profile);
 
         simpleResponse.put(MESSAGE_KEY, CREATED_PROFILE_MESSAGE);
 
@@ -70,5 +73,16 @@ public class UserController {
     public ResponseEntity<ProfileResponseDto> getProfile(@RequestParam(value = "email") String email){
         return ResponseEntity.status(HttpStatus.OK)
                 .body(profileMapper.toProfileResponse(profileServicePort.getByEmail(email)));
+    }
+
+    @PutMapping(value = "/profile")
+    public ResponseEntity<ProfileResponseDto> updateProfile(
+            @RequestParam(value = "email") String email,
+            @RequestBody UpdateProfileDto updateProfileDto
+            ){
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(profileMapper.toProfileResponse(
+                        profileServicePort.updateEmail(email, profileMapper.fromUpdateToModel(updateProfileDto))
+                ));
     }
 }
