@@ -9,4 +9,6 @@ public interface IProfilePersistencePort {
     Optional<Profile> save(Profile profile);
 
     Optional<Profile> getByEmail(String email);
+
+    void delete(String email);
 }

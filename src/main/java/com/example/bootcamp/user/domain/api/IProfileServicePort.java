@@ -8,5 +8,7 @@ public interface IProfileServicePort {
 
     Profile getByEmail(String email);
 
-    Profile updateEmail(String email, Profile profile);
+    Profile update(String email, Profile profile);
+
+    void delete(String email);
 }
