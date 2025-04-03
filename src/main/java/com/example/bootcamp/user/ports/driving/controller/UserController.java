@@ -8,6 +8,7 @@ import com.example.bootcamp.user.domain.model.StudentInstitution;
 import com.example.bootcamp.user.ports.driving.dto.request.CreateProfileDto;
 import com.example.bootcamp.user.ports.driving.dto.request.StaffRegisterDto;
 import com.example.bootcamp.user.ports.driving.dto.request.StudentRegisterDto;
+import com.example.bootcamp.user.ports.driving.dto.response.ProfileResponseDto;
 import com.example.bootcamp.user.ports.driving.mapper.IProfileMapper;
 import com.example.bootcamp.user.ports.driving.mapper.IStaffMapper;
 import com.example.bootcamp.user.ports.driving.mapper.IStudentMapper;
@@ -15,10 +16,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -66,5 +64,11 @@ public class UserController {
         simpleResponse.put(MESSAGE_KEY, CREATED_PROFILE_MESSAGE);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(simpleResponse);
+    }
+
+    @GetMapping(value = "/profile")
+    public ResponseEntity<ProfileResponseDto> getProfile(@RequestParam(value = "email") String email){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(profileMapper.toProfileResponse(profileServicePort.getByEmail(email)));
     }
 }
