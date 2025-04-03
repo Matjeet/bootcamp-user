@@ -23,6 +23,8 @@ public class StudentMessage {
     public static final String USER_NOT_FOUND = "El usuario enviado en la petición no se encontró dentro de la base de datos";
     public static final String BADGES_NOT_FOUND = "Las insignias enviadas en la petición no se encontraron dentro de la base de datos";
     public static final String HOBBIES_NOT_FOUND = "Los pasatiempos enviados en la petición no se encontraron dentro de la base de datos";
+    public static final String PROFILE_NOT_FOUND = "El perfil envíado no fue encontrado";
+    public static final String PROFILE_NOT_UPDATE = "Ocurrió un error intentando actualizar el perfil";
 
     // VALIDATION MESSAGE
     public static final String CITY_ID_IS_NULL_MESSAGE = "El id de la ciudad es requerido";

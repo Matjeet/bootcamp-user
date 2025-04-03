@@ -138,4 +138,16 @@ public class UserExceptionHandler {
         responseException.put(MESSAGE_KEY, invalidUrlException.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
     }
+
+    @ExceptionHandler(ProfileNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleProfileNotFoundException(ProfileNotFoundException profileNotFoundException){
+        responseException.put(MESSAGE_KEY, profileNotFoundException.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
+    }
+
+    @ExceptionHandler(ProfileNotUpdateException.class)
+    public ResponseEntity<Map<String, String>> handleProfileNotUpdateException(ProfileNotUpdateException profileNotUpdateException){
+        responseException.put(MESSAGE_KEY, profileNotUpdateException.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseException);
+    }
 }

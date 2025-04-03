@@ -7,4 +7,6 @@ public interface IProfileServicePort {
     void save(Profile profile);
 
     Profile getByEmail(String email);
+
+    Profile updateEmail(String email, Profile profile);
 }
