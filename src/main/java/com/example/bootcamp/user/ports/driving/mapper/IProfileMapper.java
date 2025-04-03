@@ -4,6 +4,7 @@ import com.example.bootcamp.user.domain.model.Badge;
 import com.example.bootcamp.user.domain.model.Hobby;
 import com.example.bootcamp.user.domain.model.Profile;
 import com.example.bootcamp.user.ports.driving.dto.request.CreateProfileDto;
+import com.example.bootcamp.user.ports.driving.dto.request.UpdateProfileDto;
 import com.example.bootcamp.user.ports.driving.dto.response.ProfileResponseDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -21,7 +22,11 @@ public interface IProfileMapper {
 
     @Mapping(source = "badges", target = "badges", qualifiedByName = "mapLongToBadgesList")
     @Mapping(source = "hobbies", target = "hobbies", qualifiedByName = "mapLongToHobbiesList")
-    Profile toModel(CreateProfileDto createProfileDto);
+    Profile fromCreateToModel(CreateProfileDto createProfileDto);
+
+    @Mapping(source = "badges", target = "badges", qualifiedByName = "mapLongToBadgesList")
+    @Mapping(source = "hobbies", target = "hobbies", qualifiedByName = "mapLongToHobbiesList")
+    Profile fromUpdateToModel(UpdateProfileDto updateProfileDto);
 
     @Named("mapLongToBadgesList")
     static List<Badge> mapLongToBadgesList(List<Long> badgesId){

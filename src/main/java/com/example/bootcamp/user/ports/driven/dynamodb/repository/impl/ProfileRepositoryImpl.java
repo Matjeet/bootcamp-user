@@ -23,8 +23,9 @@ public class ProfileRepositoryImpl implements IProfileRepository {
     }
 
     @Override
-    public void save(ProfileEntity profileEntity) {
+    public ProfileEntity save(ProfileEntity profileEntity) {
         profileTable.putItem(profileEntity);
+        return profileEntity;
     }
 
     @Override

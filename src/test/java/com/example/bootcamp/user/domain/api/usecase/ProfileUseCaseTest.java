@@ -89,7 +89,7 @@ class ProfileUseCaseTest {
         when(hobbyPersistencePort.findAllById(anyList())).thenReturn(List.of(hobbyValid, hobbyValid));
         when(developerRolPersistencePort.findByName(anyString())).thenReturn(Optional.of(new DeveloperRol()));
         when(staffRolPersistencePort.findByName(anyString())).thenReturn(Optional.of(new StaffRol()));
-        doNothing().when(profilePersistencePort).save(any(Profile.class));
+        when(profilePersistencePort.save(any(Profile.class))).thenReturn(Optional.of(profileValid));
 
         profileUseCase.save(profileValid);
 
@@ -241,7 +241,7 @@ class ProfileUseCaseTest {
         when(hobbyPersistencePort.findAllById(anyList())).thenReturn(List.of(hobbyValid, hobbyValid));
         when(developerRolPersistencePort.findByName(anyString())).thenReturn(Optional.of(new DeveloperRol()));
         when(staffRolPersistencePort.findByName(anyString())).thenReturn(Optional.of(new StaffRol()));
-        doNothing().when(profilePersistencePort).save(any(Profile.class));
+        when(profilePersistencePort.save(any(Profile.class))).thenReturn(Optional.of(profileValid));
 
         profileUseCase.save(profileValid);
 
@@ -256,7 +256,7 @@ class ProfileUseCaseTest {
         when(badgesPersistencePort.findAllBadges(anyList())).thenReturn(List.of(badgeValid, badgeValid));
         when(developerRolPersistencePort.findByName(anyString())).thenReturn(Optional.of(new DeveloperRol()));
         when(staffRolPersistencePort.findByName(anyString())).thenReturn(Optional.of(new StaffRol()));
-        doNothing().when(profilePersistencePort).save(any(Profile.class));
+        when(profilePersistencePort.save(any(Profile.class))).thenReturn(Optional.of(profileValid));
 
         profileUseCase.save(profileValid);
 
