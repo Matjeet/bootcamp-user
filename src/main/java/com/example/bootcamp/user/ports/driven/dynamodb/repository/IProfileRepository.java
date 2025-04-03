@@ -8,4 +8,6 @@ public interface IProfileRepository {
     ProfileEntity save(ProfileEntity profileEntity);
 
     Optional<ProfileEntity> findByEmail(String email);
+
+    void delete(String email);
 }
