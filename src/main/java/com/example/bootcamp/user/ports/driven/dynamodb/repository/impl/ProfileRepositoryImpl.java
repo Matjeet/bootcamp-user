@@ -5,7 +5,10 @@ import com.example.bootcamp.user.ports.driven.dynamodb.repository.IProfileReposi
 import org.springframework.stereotype.Repository;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
+import software.amazon.awssdk.enhanced.dynamodb.Key;
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
+
+import java.util.Optional;
 
 @Repository
 public class ProfileRepositoryImpl implements IProfileRepository {
@@ -22,5 +25,11 @@ public class ProfileRepositoryImpl implements IProfileRepository {
     @Override
     public void save(ProfileEntity profileEntity) {
         profileTable.putItem(profileEntity);
+    }
+
+    @Override
+    public Optional<ProfileEntity> findByEmail(String email) {
+        Key key = Key.builder().partitionValue(email).build();
+        return Optional.ofNullable(profileTable.getItem(key));
     }
 }

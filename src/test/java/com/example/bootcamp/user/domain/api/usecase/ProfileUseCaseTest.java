@@ -27,8 +27,7 @@ import static com.example.bootcamp.user.domain.util.StudentConstants.ONE_TIME;
 import static com.example.bootcamp.user.domain.util.StudentMessage.*;
 import static com.example.bootcamp.user.domain.util.TestConstants.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith({MockitoExtension.class, OutputCaptureExtension.class})
@@ -284,5 +283,25 @@ class ProfileUseCaseTest {
         UserNotFoundException ex = assertThrows(UserNotFoundException.class, executable);
 
         assertEquals(USER_NOT_FOUND, ex.getMessage());
+    }
+
+    @Test
+    void getByEmail_Success(){
+        when(profilePersistencePort.getByEmail(anyString())).thenReturn(Optional.of(profileValid));
+
+        Profile result = profileUseCase.getByEmail(VALID_EMAIL);
+
+        verify(profilePersistencePort, times(ONE_TIME)).getByEmail(anyString());
+        assertEquals(VALID_EMAIL, result.getUserEmail());
+    }
+
+    @Test
+    void getByEmail_Empty(){
+        when(profilePersistencePort.getByEmail(anyString())).thenReturn(Optional.empty());
+
+        Profile result = profileUseCase.getByEmail(VALID_EMAIL);
+
+        verify(profilePersistencePort, times(ONE_TIME)).getByEmail(anyString());
+        assertNull(result.getUserEmail());
     }
 }

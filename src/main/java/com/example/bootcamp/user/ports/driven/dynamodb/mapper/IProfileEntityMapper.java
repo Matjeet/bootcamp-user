@@ -10,6 +10,9 @@ import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
+import java.util.Optional;
+
+import static java.util.Objects.nonNull;
 
 @Mapper(componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
@@ -28,5 +31,23 @@ public interface IProfileEntityMapper {
     @Named("mapHobbiesToStringList")
     static List<String> mapHobbiesToStringList(List<Hobby> hobbies) {
         return hobbies != null ? hobbies.stream().map(Hobby::getName).toList() : null;
+    }
+
+    @Mapping(source = "badges", target = "badges", qualifiedByName = "mapStringToBadgeList")
+    @Mapping(source = "hobbies", target = "hobbies", qualifiedByName = "mapStringToHobbyList")
+    Profile toModel(ProfileEntity profileEntity);
+
+    default Optional<Profile> toOptionalModel(ProfileEntity profileEntity){
+        return Optional.ofNullable(toModel(profileEntity));
+    }
+
+    @Named("mapStringToBadgeList")
+    static List<Badge> mapStringToBadgeList(List<String> badges){
+        return nonNull(badges) ? badges.stream().map(badge -> new Badge(null, badge)).toList() : null;
+    }
+
+    @Named("mapStringToHobbyList")
+    static List<Hobby> mapStringToHobbyList(List<String> hobbies){
+        return nonNull(hobbies) ? hobbies.stream().map(hobby -> new Hobby(null, hobby)).toList() : null;
     }
 }
