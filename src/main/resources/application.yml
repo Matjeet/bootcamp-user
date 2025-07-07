@@ -24,3 +24,12 @@ server:
 
 aws:
   region: us-east-1
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tagsSorter: alpha
+    operationSorter: alpha
+  version: 1.0.0
