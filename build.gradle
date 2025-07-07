@@ -34,6 +34,7 @@ ext {
 	mockitoVersion = "5.12.0"
 	lombokMapstructBindingVersion = "0.2.0"
 	dynamoDbVersion = "2.31.11"
+	openApiVersion = "2.6.0"
 }
 
 dependencies {
@@ -44,6 +45,7 @@ dependencies {
 	implementation "software.amazon.awssdk:dynamodb:${dynamoDbVersion}"
 	implementation "software.amazon.awssdk:dynamodb-enhanced:${dynamoDbVersion}"
 	annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
+	implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${openApiVersion}"
 
 
 	compileOnly 'org.projectlombok:lombok'
