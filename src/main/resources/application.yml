@@ -33,5 +33,3 @@ springdoc:
     tagsSorter: alpha
     operationSorter: alpha
   version: 1.0.0
-
-debug: true
