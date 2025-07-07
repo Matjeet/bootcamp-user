@@ -14,6 +14,9 @@ import com.example.bootcamp.user.ports.driving.dto.response.ProfileResponseDto;
 import com.example.bootcamp.user.ports.driving.mapper.IProfileMapper;
 import com.example.bootcamp.user.ports.driving.mapper.IStaffMapper;
 import com.example.bootcamp.user.ports.driving.mapper.IStudentMapper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,7 +27,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.example.bootcamp.user.domain.util.StudentMessage.*;
+import static com.example.bootcamp.user.ports.driving.util.DocumentationConstants.*;
 
+@Tag(name = USER_TAG, description = USER_DESCRIPTION)
 @RestController
 @RequestMapping("api/v1/user")
 @RequiredArgsConstructor
@@ -39,6 +44,14 @@ public class UserController {
 
     private final Map<String, String> simpleResponse = new HashMap<>();
 
+    @Operation(
+            summary = CREATE_STUDENT_SUMMARY,
+            description = CREATE_STUDENT_DESCRIPTION
+    )
+    @ApiResponse(responseCode = HTTP_CREATED_CODE, description = CREATED_201_DESCRIPTION)
+    @ApiResponse(responseCode = HTTP_BAD_REQUEST_CODE, description = BAD_REQUEST_400_DESCRIPTION)
+    @ApiResponse(responseCode = HTTP_INTERNAL_ERROR_CODE, description = INTERNAL_ERROR_500_DESCRIPTION)
+
     @PostMapping("/student")
     public ResponseEntity<Map<String, String>> saveStudent(@Valid @RequestBody StudentRegisterDto studentRegisterDto){
         StudentInstitution studentInstitution = studentMapper.toStudentInstitution(studentRegisterDto);
@@ -50,6 +63,14 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(simpleResponse);
     }
 
+    @Operation(
+            summary = CREATE_STAFF_SUMMARY,
+            description = CREATE_STAFF_DESCRIPTION
+    )
+    @ApiResponse(responseCode = HTTP_CREATED_CODE, description = CREATED_201_DESCRIPTION)
+    @ApiResponse(responseCode = HTTP_BAD_REQUEST_CODE, description = BAD_REQUEST_400_DESCRIPTION)
+    @ApiResponse(responseCode = HTTP_INTERNAL_ERROR_CODE, description = INTERNAL_ERROR_500_DESCRIPTION)
+
     @PostMapping("/staff")
     public ResponseEntity<Map<String, String>> saveStaff(@Valid @RequestBody StaffRegisterDto staffRegisterDto){
         staffServicePort.save(staffMapper.toModel(staffRegisterDto));
@@ -58,6 +79,14 @@ public class UserController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(simpleResponse);
     }
+
+    @Operation(
+            summary = CREATE_PROFILE_SUMMARY,
+            description = CREATE_PROFILE_DESCRIPTION
+    )
+    @ApiResponse(responseCode = HTTP_CREATED_CODE, description = CREATED_201_DESCRIPTION)
+    @ApiResponse(responseCode = HTTP_BAD_REQUEST_CODE, description = BAD_REQUEST_400_DESCRIPTION)
+    @ApiResponse(responseCode = HTTP_INTERNAL_ERROR_CODE, description = INTERNAL_ERROR_500_DESCRIPTION)
 
     @PostMapping(value = "/profile")
     public ResponseEntity<Map<String, String>> saveProfile(@Valid @RequestBody CreateProfileDto createProfileDto){
@@ -69,11 +98,27 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(simpleResponse);
     }
 
+    @Operation(
+            summary = GET_PROFILE_SUMMARY,
+            description = GET_PROFILE_DESCRIPTION
+    )
+    @ApiResponse(responseCode = HTTP_CREATED_CODE, description = CREATED_201_DESCRIPTION)
+    @ApiResponse(responseCode = HTTP_INTERNAL_ERROR_CODE, description = INTERNAL_ERROR_500_DESCRIPTION)
+
     @GetMapping(value = "/profile")
     public ResponseEntity<ProfileResponseDto> getProfile(@RequestParam(value = "email") String email){
         return ResponseEntity.status(HttpStatus.OK)
                 .body(profileMapper.toProfileResponse(profileServicePort.getByEmail(email)));
     }
+
+    @Operation(
+            summary = UPDATE_PROFILE_SUMMARY,
+            description = UPDATE_PROFILE_DESCRIPTION
+    )
+    @ApiResponse(responseCode = HTTP_CREATED_CODE, description = CREATED_201_DESCRIPTION)
+    @ApiResponse(responseCode = HTTP_BAD_REQUEST_CODE, description = BAD_REQUEST_400_DESCRIPTION)
+    @ApiResponse(responseCode = HTTP_INTERNAL_ERROR_CODE, description = INTERNAL_ERROR_500_DESCRIPTION)
+    @ApiResponse(responseCode = HTTP_INTERNAL_ERROR_CODE, description = INTERNAL_ERROR_500_UPDATE_PROFILE_DESCRIPTION)
 
     @PutMapping(value = "/profile")
     public ResponseEntity<ProfileResponseDto> updateProfile(
@@ -85,6 +130,15 @@ public class UserController {
                         profileServicePort.update(email, profileMapper.fromUpdateToModel(updateProfileDto))
                 ));
     }
+
+    @Operation(
+            summary = DELETE_PROFILE_SUMMARY,
+            description = DELETE_PROFILE_DESCRIPTION
+    )
+    @ApiResponse(responseCode = HTTP_CREATED_CODE, description = CREATED_201_DESCRIPTION)
+    @ApiResponse(responseCode = HTTP_BAD_REQUEST_CODE, description = BAD_REQUEST_400_DESCRIPTION)
+    @ApiResponse(responseCode = HTTP_INTERNAL_ERROR_CODE, description = INTERNAL_ERROR_500_DESCRIPTION)
+    @ApiResponse(responseCode = HTTP_INTERNAL_ERROR_CODE, description = INTERNAL_ERROR_500_UPDATE_PROFILE_DESCRIPTION)
 
     @DeleteMapping(value = "/profile")
     public ResponseEntity<Void> deleteProfile(@RequestParam(value = "email") String email){
